@@ -31,3 +31,10 @@ class Comment(db.Model):
 	commenter_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 	story_id = db.Column(db.Integer, db.ForeignKey('story.id'), nullable=False)
 	comment = db.Column(db.String(500), nullable=False)
+
+#commenter_id, story_id, comment_id, comment
+class Comment_reply(db.Model):
+	commenter_id = db.Column(db.Integer, nullable=False, db.ForeignKey('user.id'))
+	story_id = db.Column(db.Integer, nullable=False, db.ForeignKey('story.id'))
+	comment_id = db.Column(db.Integer, nullable=False, db.ForeignKey('comment.id'))
+	comment = db.Column(db.String(500), nullable=False)
