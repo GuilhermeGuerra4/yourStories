@@ -27,7 +27,7 @@ class Like(db.Model):
 	datetime = db.Column(db.BIGINT, nullable=False)
 
 class Comment(db.Model):
-	id = db.Column(db.Integer, nullable=False)
+	id = db.Column(db.Integer, nullable=False, primary_key=True)
 	commenter_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 	story_id = db.Column(db.Integer, db.ForeignKey('story.id'), nullable=False)
 	comment = db.Column(db.String(500), nullable=False)
@@ -43,3 +43,10 @@ class View(db.Model):
 	story_id = db.Column(db.Integer, nullable=False, db.ForeignKey('story.id'))
 	duration = db.Column(db.BIGINT, nullable=False)
 	datetime = db.Column(db.DateTime, nullable=False)
+
+class Access(db.Model):
+	id = db.Column(db.Integer, nullable=False, primary_key=True)
+	user_id = db.Column(db.Integer, nullable=False, db.ForeignKey('user.id'))
+	ip = db.Column(db.String(50), nullable=False)
+	user_agent = db.Column(db.String(50), nullable=True)
+	datetime = db.Column(db.BIGINT, nullable=False)
