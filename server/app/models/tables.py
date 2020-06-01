@@ -33,20 +33,20 @@ class Comment(db.Model):
 	comment = db.Column(db.String(500), nullable=False)
 
 class Comment_reply(db.Model):
-	commenter_id = db.Column(db.Integer, nullable=False, db.ForeignKey('user.id'))
-	story_id = db.Column(db.Integer, nullable=False, db.ForeignKey('story.id'))
-	comment_id = db.Column(db.Integer, nullable=False, db.ForeignKey('comment.id'))
+	commenter_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+	story_id = db.Column(db.Integer, db.ForeignKey('story.id'), nullable=False)
+	comment_id = db.Column(db.Integer, db.ForeignKey('comment.id'), nullable=False)
 	comment = db.Column(db.String(500), nullable=False)
 
 class View(db.Model):
-	user_id = db.Column(db.Integer, nullable=False, db.ForeignKey('user.id'))
-	story_id = db.Column(db.Integer, nullable=False, db.ForeignKey('story.id'))
+	user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+	story_id = db.Column(db.Integer, db.ForeignKey('story.id'), nullable=False)
 	duration = db.Column(db.BIGINT, nullable=False)
 	datetime = db.Column(db.DateTime, nullable=False)
 
 class Access(db.Model):
 	id = db.Column(db.Integer, nullable=False, primary_key=True)
-	user_id = db.Column(db.Integer, nullable=False, db.ForeignKey('user.id'))
+	user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 	ip = db.Column(db.String(50), nullable=False)
 	user_agent = db.Column(db.String(50), nullable=True)
 	datetime = db.Column(db.BIGINT, nullable=False)
