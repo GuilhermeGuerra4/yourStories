@@ -32,9 +32,14 @@ class Comment(db.Model):
 	story_id = db.Column(db.Integer, db.ForeignKey('story.id'), nullable=False)
 	comment = db.Column(db.String(500), nullable=False)
 
-#commenter_id, story_id, comment_id, comment
 class Comment_reply(db.Model):
 	commenter_id = db.Column(db.Integer, nullable=False, db.ForeignKey('user.id'))
 	story_id = db.Column(db.Integer, nullable=False, db.ForeignKey('story.id'))
 	comment_id = db.Column(db.Integer, nullable=False, db.ForeignKey('comment.id'))
 	comment = db.Column(db.String(500), nullable=False)
+
+class View(db.Model):
+	user_id = db.Column(db.Integer, nullable=False, db.ForeignKey('user.id'))
+	story_id = db.Column(db.Integer, nullable=False, db.ForeignKey('story.id'))
+	duration = db.Column(db.BIGINT, nullable=False)
+	datetime = db.Column(db.DateTime, nullable=False)
