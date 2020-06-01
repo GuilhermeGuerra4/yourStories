@@ -22,8 +22,8 @@ class Story(db.Model):
 	publisher_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
 class Like(db.Model):
-	user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-	story_id = db.Column(db.Integer, db.ForeignKey('story.id'), nullable=False)
+	user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False, primary_key=True)
+	story_id = db.Column(db.Integer, db.ForeignKey('story.id'), nullable=False, primary_key=True)
 	datetime = db.Column(db.BIGINT, nullable=False)
 
 class Comment(db.Model):
@@ -33,14 +33,14 @@ class Comment(db.Model):
 	comment = db.Column(db.String(500), nullable=False)
 
 class Comment_reply(db.Model):
-	commenter_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-	story_id = db.Column(db.Integer, db.ForeignKey('story.id'), nullable=False)
-	comment_id = db.Column(db.Integer, db.ForeignKey('comment.id'), nullable=False)
+	commenter_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False, primary_key=True)
+	story_id = db.Column(db.Integer, db.ForeignKey('story.id'), nullable=False, primary_key=True)
+	comment_id = db.Column(db.Integer, db.ForeignKey('comment.id'), nullable=False, primary_key=True)
 	comment = db.Column(db.String(500), nullable=False)
 
 class View(db.Model):
-	user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-	story_id = db.Column(db.Integer, db.ForeignKey('story.id'), nullable=False)
+	user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False, primary_key=True)
+	story_id = db.Column(db.Integer, db.ForeignKey('story.id'), nullable=False, primary_key=True)
 	duration = db.Column(db.BIGINT, nullable=False)
 	datetime = db.Column(db.DateTime, nullable=False)
 
