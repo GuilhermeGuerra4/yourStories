@@ -12,7 +12,6 @@ class User(db.Model):
 	datetime_created_account = db.Column(db.BIGINT, nullable=False)
 	last_datetime_online =  db.Column(db.BIGINT, nullable=False) 
 
-
 class Story(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
 	title = db.Column(db.String(100), nullable=False)
@@ -22,3 +21,7 @@ class Story(db.Model):
 	last_update = db.Column(db.BIGINT, nullable=False)
 	publisher_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
+class Like(db.Model):
+	user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+	story_id = db.Column(db.Integer, db.ForeignKey('story.id'), nullable=False)
+	datetime = db.Column(db.BIGINT, nullable=False)
