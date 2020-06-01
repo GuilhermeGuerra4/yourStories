@@ -25,3 +25,9 @@ class Like(db.Model):
 	user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 	story_id = db.Column(db.Integer, db.ForeignKey('story.id'), nullable=False)
 	datetime = db.Column(db.BIGINT, nullable=False)
+
+class Comment(db.Model):
+	id = db.Column(db.Integer, nullable=False)
+	commenter_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+	story_id = db.Column(db.Integer, db.ForeignKey('story.id'), nullable=False)
+	comment = db.Column(db.String(500), nullable=False)
