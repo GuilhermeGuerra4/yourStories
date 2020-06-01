@@ -11,3 +11,14 @@ class User(db.Model):
 	ip = db.Column(db.String(20), nullable=False)
 	datetime_created_account = db.Column(db.BIGINT, nullable=False)
 	last_datetime_online =  db.Column(db.BIGINT, nullable=False) 
+
+
+class Story(db.Model):
+	id = db.Column(db.Integer, primary_key=True)
+	title = db.Column(db.String(100), nullable=False)
+	text = db.Column(db.Text, nullable=False)
+	tags = db.Column(db.Text(200), nullable=True)
+	datetime_created = db.Column(db.BIGINT, nullable=False)
+	last_update = db.Column(db.BIGINT, nullable=False)
+	publisher_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+
