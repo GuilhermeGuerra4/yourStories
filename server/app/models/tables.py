@@ -7,7 +7,7 @@ class User(db.Model):
 	full_name = db.Column(db.String(50), nullable=False)
 	email = db.Column(db.String(50), nullable=False)
 	birthdate = db.Column(db.Date(), nullable=True)
-	photo = db.Column(db.String(100), nullable=False)
+	photo = db.Column(db.String(500), nullable=False)
 	locale = db.Column(db.String(5), nullable=False)
 	ip = db.Column(db.String(20), nullable=False)
 	datetime_created_account = db.Column(db.BIGINT, nullable=False)
