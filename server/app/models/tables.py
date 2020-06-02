@@ -34,6 +34,7 @@ class Comment(db.Model):
 	comment = db.Column(db.String(500), nullable=False)
 
 class Comment_reply(db.Model):
+	id = db.Column(db.Integer, nullable=False, primary_key=True)
 	commenter_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False, primary_key=True)
 	story_id = db.Column(db.Integer, db.ForeignKey('story.id'), nullable=False, primary_key=True)
 	comment_id = db.Column(db.Integer, db.ForeignKey('comment.id'), nullable=False, primary_key=True)
