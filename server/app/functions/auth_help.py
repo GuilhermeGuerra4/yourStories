@@ -10,5 +10,8 @@ def token_generator(user_email):
 
 def verify_login(token):
 	is_in_db = User.query.filter_by(token=token).count()
+
 	if is_in_db > 0:
 		return True
+	else:
+		return False
