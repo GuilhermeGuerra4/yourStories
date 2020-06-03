@@ -16,11 +16,12 @@ class User(db.Model):
 class Story(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
 	title = db.Column(db.String(100), nullable=False)
-	text = db.Column(db.LONGTEXT, nullable=False)
+	text = db.Column(db.String, nullable=False)
 	preview = db.Column(db.Text, nullable=False)
 	tags = db.Column(db.Text(200), nullable=True)
 	datetime_created = db.Column(db.BIGINT, nullable=False)
 	last_update = db.Column(db.BIGINT, nullable=False)
+	status = db.Column(db.Enum('in_sketch', 'published', 'excluded', 'banned'))
 	publisher_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
 class Like(db.Model):
