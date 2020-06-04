@@ -6,6 +6,8 @@ from app.functions.user import get_user_by_token
 from flask import request
 import json, time
 
+preview_size = 10
+
 @app.route('/save_sketch', methods=['POST'])
 def save_sketch():
 	response = {'status': False, 'message': ''}
@@ -25,11 +27,11 @@ def save_sketch():
 			response['status'] = True
 			if story == None:
 				timestamp_now = str(time.time())
-				new_story = Story(id=False, title="", text=text, preview="", tags="", datetime_created=timestamp_now, last_update=timestamp_now, status="in_sketch", publisher_id=user.id)
+				new_story = Story(id=False, title="", text=text, preview=text[:preview_size], tags="", datetime_created=timestamp_now, last_update=timestamp_now, status="in_sketch", publisher_id=user.id)
 				db.session.add(new_story)
 				response['message'] = 'story created'
 			else:
-				db.session.query(Story).filter(Story.id == story.id).update({Story.text:text})
+				db.session.query(Story).filter(Story.id == story.id).update({Story.text:text, Story.preview:text[:preview_size]})
 				response['message'] = 'story saved'
 			db.session.commit()
 
