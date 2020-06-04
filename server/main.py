@@ -1,6 +1,5 @@
 from flask import Flask, send_from_directory
 from app import *
-from app.config import *
 
 app = Flask(__name__)
 app.config.from_pyfile('config.py')
