@@ -8,7 +8,7 @@ import json, time
 
 preview_size = 10
 
-@app.route('/save_sketch', methods=['POST'])
+@app.route('/save_sketch', methods=['PUT'])
 def save_sketch():
 	response = {'status': False, 'message': ''}
 	
@@ -20,7 +20,7 @@ def save_sketch():
 		is_signed = verify_login(token)
 
 		if is_signed == False:
-			response['message'] = 'not authentificated'
+			response['message'] = 'not authorized'
 		else:
 			user = get_user_by_token(token)
 			story = Story.query.filter_by(publisher_id=user.id, status='in_sketch').with_entities(Story.id, Story.title, Story.text).first()
