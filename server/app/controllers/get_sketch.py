@@ -6,21 +6,21 @@ from app.functions.user import get_user_by_token
 from flask import request
 import json
 
-@app.route('/get_sketch', methods=['POST'])
-def get_sketch():
+@app.route('/get_sketch/<token>/', methods=['GET'])
+def get_sketch(token=None):
 	response = {'status': False, 'message': ''}
 	
-	if not 'token' in request.form:
+	if token == None:
 		response['message'] = 'bad request'
 	else:
-		token = request.form['token']
 		is_signed = verify_login(token)
 
 		if is_signed == False:
 			response['message'] = 'not authentificated'
 		else:
 			user = get_user_by_token(token)
-			story = Story.query.filter_by(publisher_id=user.id, status='in_sketch').with_entities(Story.id, Story.title, Story.text).first()
+			story = Story.query.filter_by(publisher_id=user.id, status='in_sketch') \
+				.with_entities(Story.id, Story.title, Story.text).first()
 			
 			if story == None:
 				response['message'] = 'none sketch created yet'

@@ -8,21 +8,24 @@ import json
 preview_size = 10
 page_size = 10
 
-@app.route('/get_stories', methods=['POST'])
-def get_stories():
+@app.route('/get_stories/<token>/<page>/', methods=['GET'])
+def get_stories(token=None, page=None):
 	response = {'status': False, 'message': ''}
 	
-	if not 'token' in request.form:
+	if token == None:
 		response['message'] = 'bad request'
 	else:
-		page = int(request.form['page']) if 'page' in request.form else 1
-		token = request.form['token']
+		page = 1 if page == None else int(page)
 		is_signed = verify_login(token)
 
 		if is_signed == False:
-			response['message'] = 'not authentificated'
+			response['message'] = 'not authorized'
 		else:
-			fetch = Story.query.filter_by(status='published').with_entities(Story.id, Story.title, Story.preview).order_by(Story.datetime_created.desc()).paginate(per_page=page_size, page=page)
+			fetch = Story.query.filter_by(status='published') \
+				.with_entities(Story.id, Story.title, Story.preview) \
+				.order_by(Story.datetime_created.desc()) \
+				.paginate(per_page=page_size, page=page)
+
 			response['status'] = True
 			response['message'] = 'ok'
 			response['size'] = len(fetch.items)
