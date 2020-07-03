@@ -21,6 +21,7 @@ class Story(db.Model):
 	tags = db.Column(db.Text(200), nullable=True)
 	datetime_created = db.Column(db.BIGINT, nullable=True)
 	last_update = db.Column(db.BIGINT, nullable=False)
+	locale = db.Column(db.String(10), nullable=False)
 	status = db.Column(db.Enum('in_sketch', 'published', 'excluded', 'banned'))
 	publisher_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 
