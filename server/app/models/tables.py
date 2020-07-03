@@ -24,7 +24,7 @@ class Story(db.Model):
 	status = db.Column(db.Enum('in_sketch', 'published', 'excluded', 'banned'))
 	publisher_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 
-class Like(db.Model):
+class Enjoy(db.Model):
 	user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False, primary_key=True)
 	story_id = db.Column(db.Integer, db.ForeignKey('story.id'), nullable=False, primary_key=True)
 	datetime = db.Column(db.BIGINT, nullable=False)
