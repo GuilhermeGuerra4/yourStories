@@ -27,7 +27,7 @@ def save_sketch():
 			response['status'] = True
 			if story == None:
 				timestamp_now = str(time.time())
-				new_story = Story(id=False, title="", text=text, preview=text[:preview_size], tags="", datetime_created=timestamp_now, last_update=timestamp_now, status="in_sketch", publisher_id=user.id)
+				new_story = Story(id=False, title="", text=text, preview=text[:preview_size], tags="", datetime_created=timestamp_now, last_update=timestamp_now, locale=user.locale, status="in_sketch", publisher_id=user.id)
 				db.session.add(new_story)
 				response['message'] = 'story created'
 			else:
