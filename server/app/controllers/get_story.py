@@ -23,5 +23,5 @@ def get_story(token=None, story_id=None):
 			else:	
 				response['payload'] = {"id": story.id, "title": story.title, "text": story.text, "preview": story.preview, "tags": story.tags, "datetime_created": story.datetime_created, "publisher_id": story.publisher_id}
 				response['status'] = True
-				response['message'] = 'ok'	
+				response['message'] = 'ok'
 	return(json.dumps(response))
