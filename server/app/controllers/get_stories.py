@@ -23,7 +23,6 @@ def get_stories(token=None, page=None):
 			response['message'] = 'not authorized'
 		else:
 			user = get_user_by_token(token)
-			print(user.locale[:2])
 			fetch = Story.query.filter(Story.status.like('published'), Story.locale.like('%'+user.locale[:2]+'%')) \
 				.with_entities(Story.id, Story.title, Story.preview) \
 				.order_by(Story.datetime_created.desc()) \
