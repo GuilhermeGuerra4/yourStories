@@ -18,7 +18,7 @@ def get_comments(token=None, post_id=None):
 		else:
 			comments = db.session.query(Comment, User)\
 				.with_entities(Comment.id,Comment.commenter_id,Comment.story_id,Comment.comment, User.full_name, User.photo)\
-				.filter(Comment.story_id == post_id, Comment.commenter_id == User.id)\
+				.filter(Comment.status == 'published', Comment.story_id == post_id, Comment.commenter_id == User.id)\
 				.order_by(Comment.datetime.desc())
 			comments_array = []
 			replies_array = []
