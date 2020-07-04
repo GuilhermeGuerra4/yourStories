@@ -6,10 +6,12 @@ from app.functions.user import get_user_by_token
 from flask import request
 import json, time
 
-@app.route('/get_comments/<token>/<post_id>/', methods=['GET'])
-def get_comments(token=None, post_id=None):
+page_size = 10
+
+@app.route('/get_comments/<token>/<post_id>/<page>/', methods=['GET'])
+def get_comments(token=None, post_id=None, page=None):
 	response = {'status': False, 'message': ''};
-	if token == None or post_id == None:
+	if token == None or post_id == None or page == None:
 		response['message'] = 'bad request'
 	else:
 		is_signed = verify_login(token)
@@ -19,7 +21,8 @@ def get_comments(token=None, post_id=None):
 			comments = db.session.query(Comment, User)\
 				.with_entities(Comment.id,Comment.commenter_id,Comment.story_id,Comment.comment, User.full_name, User.photo)\
 				.filter(Comment.status == 'published', Comment.story_id == post_id, Comment.commenter_id == User.id)\
-				.order_by(Comment.datetime.desc())
+				.order_by(Comment.datetime.desc())\
+				.paginate(per_page=page_size, page=page)
 			comments_array = []
 			replies_array = []
 			for comm in comments.all():
