@@ -19,7 +19,7 @@ def add_access():
 			response['message'] = 'not authorized'
 		else:
 			user = get_user_by_token(token)
-			currentTime = 1593981616
+			currentTime = time.time()
 			access = Access.query.filter(Access.user_id==user.id, Access.datetime.between(currentTime - 86400, currentTime + 86400))
 			if access.count() == 0:
 				response['message'] = 'ok'
