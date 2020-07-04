@@ -27,6 +27,6 @@ def get_sketch(token=None):
 			else:
 				response['status'] = True
 				response['message'] = 'ok'
-				response['payload'] = story
+				response['payload'] = {"id": story.id, "title": story.title, "text": story.text}
 
 	return(json.dumps(response))

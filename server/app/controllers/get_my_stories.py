@@ -28,9 +28,14 @@ def get_my_stories(token=None, page=None):
 				.order_by(Story.datetime_created.desc()) \
 				.paginate(per_page=page_size, page=page) \
 
+			data = []
+
+			for item in fetch.items:
+				data.append({'id': item[0], 'title':item[1], 'preview': item[2]})
+
 			response['status'] = True
 			response['message'] = 'ok'
-			response['size'] = len(fetch.items)
-			response['payload'] = fetch.items
+			response['size'] = len(data)
+			response['payload'] = data
 
 	return(json.dumps(response))
