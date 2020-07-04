@@ -36,6 +36,7 @@ class Comment(db.Model):
 	story_id = db.Column(db.Integer, db.ForeignKey('story.id'), nullable=False)
 	comment = db.Column(db.String(500), nullable=False)
 	datetime = db.Column(db.BIGINT, nullable=False)
+	status = db.Column(db.Enum('published', 'excluded', 'banned'))
 
 class Comment_reply(db.Model):
 	id = db.Column(db.Integer, nullable=False, primary_key=True)
