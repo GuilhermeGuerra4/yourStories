@@ -13,7 +13,7 @@ import PublishScreen from "./screens/StoryDetailsScreen";
 import SigninScreen from "./screens/SigninScreen";
 import StoryDetailsScreen from "./screens/StoryDetailsScreen";
 
-
+import {primaryColor} from './assets/colors';
 import {renderTabIcons, tabNavigationOptions} from './functions/toolbarUtils';
 
 // stacks
@@ -74,7 +74,7 @@ function getMyStoriesTabScreens(){
 	)
 }
 
-var is_signed = false;
+var is_signed = true;
 
 const Routes = () => {
 	return(
@@ -85,7 +85,7 @@ const Routes = () => {
 					tabBarOptions={{
 						showIcon: true,
 						showLabel: false,
-						activeTintColor: '#B232D1',
+						activeTintColor: primaryColor,
 						inactiveTintColor: 'gray',
 					}}>
 					<Tab.Screen 
