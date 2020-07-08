@@ -1,4 +1,4 @@
-package com.yourstories;
+package com.contmesh.yourstories;
 
 import com.facebook.react.ReactActivity;
 

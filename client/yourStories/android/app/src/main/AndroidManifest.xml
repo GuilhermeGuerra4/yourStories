@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-  package="com.yourstories">
+  package="com.contmesh.yourstories">
 
     <uses-permission android:name="android.permission.INTERNET" />
 

@@ -2,14 +2,19 @@ import React from "react";
 import {View, Text, Image, StyleSheet, StatusBar, TouchableOpacity} from "react-native";
 import {primaryColor, primaryColorDarker} from "../assets/colors";
 
-export default function Header(){
+export default function Header(props){
+		
+	function goToConfig(){
+		props.navigation.navigate('ConfigurationsScreen');
+	}
+
 	return(
 			<View style={style.container}>
 				<StatusBar backgroundColor={primaryColorDarker}/>	
 				<Image style={style.logo} source={require('../assets/images/logo.png')}/> 
 				<View style={style.profileContainer}>
-					<TouchableOpacity>
-						<Image style={style.profilePicture} source={{uri: "https://lh3.googleusercontent.com/a-/AOh14GidSZ_f_dvKAOOss_hcTS66iWhhTvc7cDXQty_y=s96-c"}} />
+					<TouchableOpacity onPress={goToConfig}>
+						<Image style={style.profilePicture} source={{uri: props.profile_image}} />
 					</TouchableOpacity>
 				</View>
 			</View>
@@ -37,9 +42,10 @@ const style = StyleSheet.create({
 		right: 0,
 	},
 	profilePicture: {
-		width: 40,
-		height: 40,
-		margin: 5,
+		width: 35,
+		height: 35,
+		margin: 8,
+		backgroundColor: "#ccc",
 		borderRadius: 100 / 2,
 		padding: 5,
 	},

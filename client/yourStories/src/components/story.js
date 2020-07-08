@@ -1,16 +1,29 @@
 import React from "react";
-import {View, Text, StyleSheet, TouchableOpacity} from "react-native";
+import {View,
+	Text, 
+	StyleSheet, 
+	TouchableOpacity, 
+	TouchableWithNativeFeedback} 
+from "react-native";
 
-export default function Story(){
+export default function Story(props){
+
+	var navigation = props.navigation;
+
+	function goToStoryDetailsScreen(){
+		var story_id = props.story_id;
+		navigation.navigate('StoryDetailsScreen', {'story_id': story_id});
+	}
+
 	return(
-			<TouchableOpacity>
+			<TouchableOpacity onPress={goToStoryDetailsScreen}>
 				<View style={style.container}>
 					<View style={style.sub}>
-						<Text style={style.title}>Lorem Ipsum is simply dummy text of the</Text>
+						<Text style={style.title}>{props.title}</Text>
 					</View>
 
 					<View style={style.sub}>
-						<Text style={style.preview}>Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsume Aldus PageMaker including versions of Lorem Ipsum...</Text>
+						<Text style={style.preview}>{props.preview}</Text>
 						<Text style={style.readmore}>(Read more)</Text>
 					</View>
 				</View>
@@ -26,6 +39,7 @@ const style = StyleSheet.create({
 		paddingBottom: 10,
 		paddingTop: 10,
 		borderBottomColor: "#ccc",
+		backgroundColor: "#fff",
 		alignItems: "center",
 	},	
 	sub: {
