@@ -49,7 +49,7 @@ class View(db.Model):
 	user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False, primary_key=True)
 	story_id = db.Column(db.Integer, db.ForeignKey('story.id'), nullable=False, primary_key=True)
 	duration = db.Column(db.BIGINT, nullable=False)
-	datetime = db.Column(db.DateTime, nullable=False)
+	datetime = db.Column(db.BIGINT, nullable=False)
 
 class Access(db.Model):
 	id = db.Column(db.Integer, nullable=False, primary_key=True)
