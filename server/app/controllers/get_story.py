@@ -1,6 +1,6 @@
 from __main__ import app
 from app.db import db
-from app.models.tables import User, Story
+from app.models.tables import User, Story, View, Comment
 from app.functions.auth_help import verify_login
 from app.functions.user import get_user_by_token
 from flask import request
@@ -16,12 +16,32 @@ def get_story(token=None, story_id=None):
 		if is_signed == False:
 			response['message'] = 'not authorized'
 		else:
-			story = Story.query.filter_by(id=story_id) \
-				.with_entities(Story.id, Story.title, Story.text, Story.preview, Story.tags, Story.datetime_created, Story.publisher_id).first();
+
+			sql_query = "SELECT story.*,\
+				(SELECT COUNT(comment.id) from comment WHERE comment.story_id LIKE story.id) as 'comments',\
+				(SELECT COUNT(view.story_id) from view WHERE view.story_id LIKE story.id) as 'views',\
+				(SELECT COUNT(enjoy.story_id) from enjoy WHERE enjoy.story_id LIKE story.id) as 'enjoys'\
+				FROM story WHERE story.id LIKE {0} and story.status LIKE 'published'\
+				GROUP BY story.id LIMIT 1".format(story_id)
+
+			result = db.session.execute(sql_query)
+			story = result.fetchone()
+
 			if story == None:
 				response['message'] = 'story not found'
-			else:	
-				response['payload'] = {"id": story.id, "title": story.title, "text": story.text, "preview": story.preview, "tags": story.tags, "datetime_created": story.datetime_created, "publisher_id": story.publisher_id}
+			else:					
+				response['payload'] = {\
+					"id": story[0],\
+					"title": story[1],\
+					"text": story[2],\
+					"preview": story[3],\
+					"tags": story[4],\
+					"datetime_created": story[5],\
+					"publisher_id": story[6],\
+					"views": story.views,\
+					"enjoys": story.enjoys,\
+					"comments":story.comments}
+				
 				response['status'] = True
-				response['message'] = 'ok'
+				response['message'] = 'ok'	
 	return(json.dumps(response))

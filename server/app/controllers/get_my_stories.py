@@ -1,6 +1,6 @@
 from __main__ import app
 from app.db import db
-from app.models.tables import User, Story
+from app.models.tables import User, Story, View, Comment, Enjoy
 from app.functions.auth_help import verify_login
 from app.functions.user import get_user_by_token
 from flask import request
@@ -31,7 +31,16 @@ def get_my_stories(token=None, page=None):
 			data = []
 
 			for item in fetch.items:
-				data.append({'id': item[0], 'title':item[1], 'preview': item[2]})
+				views = View.query.filter_by(story_id=item[0]).count()
+				comments = Comment.query.filter_by(story_id=item[0]).count()
+				enjoys = Enjoy.query.filter_by(story_id=item[0]).count()
+				data.append({\
+					'id': item[0],\
+					'title':item[1],\
+					'preview': item[2],\
+					'comments':comments,\
+					'enjoys': enjoys,\
+					'views': views})
 
 			response['status'] = True
 			response['message'] = 'ok'
