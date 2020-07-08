@@ -4,7 +4,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 
 export function renderTabIcons(route, focused, color){
 	var iconName = '';
-	var size = 35;
+	var size = 31;
 	if(route.name === 'HomeScreen'){
 		iconName = 'home';
 	}
