@@ -32,7 +32,7 @@ def signin():
 								google_id = user['sub'],
 								full_name = user['name'],
 								email = user['email'],
-								birthdate = '0000-00-00',
+								birthdate = None,
 								photo = user['picture'],
 								locale = user['locale'],
 								ip = request.remote_addr,
