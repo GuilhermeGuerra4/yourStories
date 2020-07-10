@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useContext } from "react";
 import {
 	Components,
 	View,
@@ -9,33 +9,19 @@ import {
 	Image,
 	AsyncStorage,
 } from "react-native";
+
 import {primaryColor, primaryColorDarker} from "../assets/colors";
-import {
-  GoogleSignin,
-  GoogleSigninButton,
-  statusCodes,
-} from '@react-native-community/google-signin';
+import {GoogleSignin,GoogleSigninButton,statusCodes} from '@react-native-community/google-signin';
+import {AuthContext} from "../components/context";
+
 
 export default function SigninScreen({navigation}){
 
-	
-	GoogleSignin.configure({
-		scopes: [],
-		webClientId: '123449495234-hvoe37lfffoqifs8hcb1c3m4umc851s4.apps.googleusercontent.com',
-		offlineAccess: false,
-		forceCodeForRefreshToken: true, 
-	});
-	
-	// Somewhere in your code
+	const authManager = useContext(AuthContext);
 	const signin = async () => {
-	  try {
-	    await GoogleSignin.hasPlayServices();
-	    const userInfo = await GoogleSignin.signIn();
-	   	console.log(userInfo);
-	  } catch (error) {
-	    console.log(error);
-	  }
+		authManager.signIn();
 	};
+
 	return(
 		<View style={style.background}>
 			<StatusBar backgroundColor={primaryColorDarker}/>
