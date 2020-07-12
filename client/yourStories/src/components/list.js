@@ -11,6 +11,8 @@ export default function List(props){
 				refreshing={props.isRefreshing}
 				onRefresh={props.handleRefresh}
 				keyExtractor={item => String(item.id)}
+				onEndReached={props.onEndReached}
+				onEndReachedThreshold={0.8}
 				/>
 		</View>
 	)
