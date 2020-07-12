@@ -33,6 +33,7 @@ def get_stories(token=None, page=None):
 			
 			for item in fetch.items:
 				data.append({'id': item[0], 'title':item[1], 'preview':item[2]})
+			if len(data) > 0:
 				response['last_page'] = True if page_size > len(data) else False
 				response['status'] = True
 				response['message'] = 'ok'
