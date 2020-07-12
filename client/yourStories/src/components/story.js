@@ -15,15 +15,24 @@ export default function Story(props){
 		navigation.navigate('StoryDetailsScreen', {'story_id': story_id});
 	}
 
+	function getTitle(title){
+		if(title.length > 70){
+			return title.substr(0, 70)+'...';
+		}	
+		else{
+			return title;
+		}
+	}
+
 	return(
 			<TouchableOpacity onPress={goToStoryDetailsScreen}>
 				<View style={style.container}>
 					<View style={style.sub}>
-						<Text style={style.title}>{props.title}</Text>
+						<Text style={style.title}>{getTitle(props.title)}</Text>
 					</View>
 
 					<View style={style.sub}>
-						<Text style={style.preview}>{props.preview}</Text>
+						<Text style={style.preview}>{props.preview}...</Text>
 						<Text style={style.readmore}>(Read more)</Text>
 					</View>
 				</View>
@@ -57,5 +66,6 @@ const style = StyleSheet.create({
 	readmore: {
 		fontWeight: "bold",
 		color: "#0099ff",
+		margin: 0,
 	},
 });
