@@ -8,7 +8,6 @@ import {primaryColor} from './assets/colors';
 import {renderTabIcons, tabNavigationOptions} from './functions/toolbarUtils';
 import {getHomeTabScreens, getEditorTabScreens, getMyStoriesTabScreens, getLoginPages} from "./pages";
 import {AuthContext} from "./components/context";
-import {googleConfigure} from "./functions/googleConfigure.js";
 import {GoogleSignin} from '@react-native-community/google-signin';
 import AsyncStorage from '@react-native-community/async-storage';
 import api from './libraries/axios';
