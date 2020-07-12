@@ -2,7 +2,7 @@ import React, {useContext, useState, useEffect, useStateCallback} from "react";
 
 import {Components,
 	View, Text, TouchableOpacity, FlatList,
-	StyleSheet, Dimensions, ActivityIndicator} from "react-native";
+	ToastAndroid, StyleSheet, Dimensions, ActivityIndicator} from "react-native";
 
 import Header from '../components/header';
 import Story from '../components/story';
@@ -27,36 +27,46 @@ export default function HomeScreen({navigation}){
 	const [isRefreshing, setIsRefreshing] = useState(false);
 	const [photo, setPhoto] = useState(null);
 	const [status, setStatus] = useState('isLoading');
+	const [isFinish, setIsFinish] = useState(false);
 
 	function goTo(){
 		navigation.navigate('ConfigurationsScreen');
 	}
 
-
 	function loadStories(){
 		console.log("LOADING ITEMS: "+page);
-		if(isLoading == false){
-			setIsLoading(true);
+		if(isLoading == false && isFinish == false){
 			if(token != null){
 				api.get('/get_stories/'+token+'/'+page+'/').then((res) => {
+					if(res.data.last_page == true){
+						setIsFinish(true);
+					}
 					if(res.data.status == true){
 						if(res.data.size != 0 && res.data.payload != undefined){
 							setStoriesCount(storiesCount => storiesCount+res.data.size);
 							setPage(page => page+1);
 							setStories([...stories, ...res.data.payload]);
 							setIsEmpty(false);
-							setIsLoading(false);
 							setStatus('loaded');
 						}
 						else{
-							setStatus('server_error');
+							setStatus('empty');
 						}
+					}
+					else{
+						setStatus('server_error');
 					}
 				}).catch(() => {
 					setStatus('connection_error');
-				});
+				}).then(() => {
+					setIsLoading(false);
+				})
 			}
 		}
+	}
+
+	function loadMoreStories(){
+		loadStories();
 	}
 	
 	useEffect(() => {
@@ -78,6 +88,7 @@ export default function HomeScreen({navigation}){
 	useEffect(() => {
 		console.log("tokenLoaded");
 		if(token != null && storiesCount == 0){
+			setIsLoading(true);
 			loadStories();
 		}
 	}, [token]);
@@ -92,8 +103,10 @@ export default function HomeScreen({navigation}){
 		)
 	}
 
-	function handleRefresh(){
+	function refresh(){
 		if(isRefreshing == false){
+			setIsFinish(false);
+			setStatus('isLoading');
 			setIsRefreshing(true);
 			setStories(stories => []);
 			setStoriesCount(0);
@@ -108,12 +121,32 @@ export default function HomeScreen({navigation}){
 		}
 	}, [isRefreshing]);
 
+	function reload(){
+		refresh();
+	}
 	function getContent(){
 		if(status == 'isLoading'){
 			return(<Loading />);
 		}
+		if(status == 'empty'){
+			if(page == 1){
+				return(
+					<StatusMessage 
+						message={"No stories were found"}/>);
+			}
+		}
 		else if(status == 'connection_error' || status == 'server_error'){
-			return(<StatusMessage />);
+			if(page == 1){
+				return(
+					<StatusMessage 
+						buttonCallback={reload} 
+						hasCallback={true}
+						message={"Internet connection not detected"}/>
+				);
+			}
+			else{
+    			ToastAndroid.show("Internet connection not detected", ToastAndroid.SHORT);
+			}
 		}
 		else if(status == 'loaded'){
 			return(
@@ -121,7 +154,8 @@ export default function HomeScreen({navigation}){
 					stories={stories}
 					renderStory={renderStory}
 					isRefreshing={isRefreshing}
-					handleRefresh={handleRefresh}/>
+					onEndReached={loadMoreStories}
+					handleRefresh={refresh}/>
 				);
 		}
 	}
