@@ -1,10 +1,10 @@
 import React from "react";
 import {Text, View, StyleSheet} from "react-native";
 
-export default function StatusMessage(){
+export default function StatusMessage(props){
 	return(
 		<View>
-			<Text style={styles.status}>Not connected to internet</Text>
+			<Text style={styles.status}>{props.message}</Text>
 		</View>
 	)
 }

@@ -13,10 +13,10 @@ page_size = 10
 def get_stories(token=None, page=None):
 	response = {'status': False, 'message': ''}
 	
-	if token == None:
+	if token == None or page == None:
 		response['message'] = 'bad request'
 	else:
-		page = 1 if page == None else int(page)
+		page = int(page)
 		is_signed = verify_login(token)
 
 		if is_signed == False:
@@ -26,17 +26,22 @@ def get_stories(token=None, page=None):
 			fetch = Story.query.filter(Story.status.like('published'), Story.locale.like('%'+user.locale[:2]+'%')) \
 				.with_entities(Story.id, Story.title, Story.preview) \
 				.order_by(Story.datetime_created.desc()) \
-				.paginate(per_page=page_size, page=page)
+				.paginate(per_page=page_size, page=page, error_out=False)
 
 			data = []
 
+			
 			for item in fetch.items:
 				data.append({'id': item[0], 'title':item[1], 'preview':item[2]})
-
-			response['status'] = True
-			response['message'] = 'ok'
-			response['size'] = len(data)
-			response['payload'] = data
-
+				response['last_page'] = True if page_size > len(data) else False
+				response['status'] = True
+				response['message'] = 'ok'
+				response['size'] = len(data)
+				response['payload'] = data
+			else:
+				response['status'] = True
+				response['message'] = 'ok'
+				response['size'] = 0
+			
 
 	return(json.dumps(response))
