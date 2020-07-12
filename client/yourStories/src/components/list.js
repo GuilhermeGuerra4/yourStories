@@ -1,7 +1,17 @@
 import React from "react";
-import {Text, View, StyleSheet, FlatList, Dimensions} from "react-native";
-
+import {Text, View, StyleSheet, FlatList, Dimensions, ActivityIndicator} from "react-native";
+import {primaryColor} from "../assets/colors";
 export default function List(props){
+
+	function renderFooter(){
+		if(props.isLoadingMore){
+			return(<ActivityIndicator style={styles.loading} color={primaryColor} size={32} />)
+		}
+		else{
+			return(<View></View>);
+		}
+	}
+
 	return(
 		<View>
 			<FlatList 
@@ -13,6 +23,7 @@ export default function List(props){
 				keyExtractor={item => String(item.id)}
 				onEndReached={props.onEndReached}
 				onEndReachedThreshold={0.8}
+				ListFooterComponent={renderFooter}
 				/>
 		</View>
 	)
@@ -22,4 +33,7 @@ const styles = StyleSheet.create({
 	scroll: {
 		height: Dimensions.get('window').height - 122,
 	},
+	loading: {
+		margin: 5,
+	}
 });

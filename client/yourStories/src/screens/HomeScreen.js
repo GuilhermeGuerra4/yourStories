@@ -28,15 +28,18 @@ export default function HomeScreen({navigation}){
 	const [photo, setPhoto] = useState(null);
 	const [status, setStatus] = useState('isLoading');
 	const [isFinish, setIsFinish] = useState(false);
+	const [isLoadingMore, setIsLoadingMore] = useState(false);
 
 	function goTo(){
 		navigation.navigate('ConfigurationsScreen');
 	}
 
 	function loadStories(){
-		console.log("LOADING ITEMS: "+page);
 		if(isLoading == false && isFinish == false){
 			if(token != null){
+				if(page != 1){
+					setIsLoadingMore(true);
+				}
 				api.get('/get_stories/'+token+'/'+page+'/').then((res) => {
 					if(res.data.last_page == true){
 						setIsFinish(true);
@@ -59,6 +62,9 @@ export default function HomeScreen({navigation}){
 				}).catch(() => {
 					setStatus('connection_error');
 				}).then(() => {
+					if(page != 1){
+						setIsLoadingMore(false);
+					}
 					setIsLoading(false);
 				})
 			}
@@ -70,7 +76,6 @@ export default function HomeScreen({navigation}){
 	}
 	
 	useEffect(() => {
-		console.log("componentDidMount");
 		AsyncStorage.multiGet(['token', 'photo'], (err, stores) => {
 			stores.map((result, i, store) => {
 				let key = store[i][0];
@@ -86,7 +91,6 @@ export default function HomeScreen({navigation}){
 	}, []);
 
 	useEffect(() => {
-		console.log("tokenLoaded");
 		if(token != null && storiesCount == 0){
 			setIsLoading(true);
 			loadStories();
@@ -117,7 +121,6 @@ export default function HomeScreen({navigation}){
 		if(isRefreshing == true && storiesCount == 0 && stories.length == 0){
 			setIsRefreshing(false);	
 			loadStories();
-			console.log("refresh");
 		}
 	}, [isRefreshing]);
 
@@ -155,6 +158,7 @@ export default function HomeScreen({navigation}){
 					renderStory={renderStory}
 					isRefreshing={isRefreshing}
 					onEndReached={loadMoreStories}
+					isLoadingMore={isLoadingMore}
 					handleRefresh={refresh}/>
 				);
 		}

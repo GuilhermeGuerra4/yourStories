@@ -19,41 +19,45 @@ import PublishScreen from "./screens/StoryDetailsScreen";
 import SigninScreen from "./screens/SigninScreen";
 import StoryDetailsScreen from "./screens/StoryDetailsScreen";
 
+import {DefaultTransition} from "./animations/defaultTransition";
+
+const options = {
+	headerShown: false,
+	...DefaultTransition,
+};
+
 export function getHomeTabScreens(){
 	return(
-			<HomeTabStack.Navigator>
-				<HomeTabStack.Screen 
-					name="HomeScreen"
-					options={{headerShown: false}}
-					component={HomeScreen}/>
-				<HomeTabStack.Screen 
-					name="StoryDetailsScreen"
-					options={{headerShown: false}}
-					component={StoryDetailsScreen}/>
-				<HomeTabStack.Screen 
-					name="ConfigurationsScreen"
-					options={{headerShown: false}}
-					component={ConfigurationsScreen}/>
-			</HomeTabStack.Navigator>
-		)
+		<HomeTabStack.Navigator screenOptions={options}>
+			<HomeTabStack.Screen 
+				name="HomeScreen"
+				component={HomeScreen}/>
+			<HomeTabStack.Screen 
+				name="StoryDetailsScreen"
+				component={StoryDetailsScreen}/>
+			<HomeTabStack.Screen 
+				name="ConfigurationsScreen"
+				component={ConfigurationsScreen}/>
+		</HomeTabStack.Navigator>
+	)
 }
 export function getEditorTabScreens(){
 	return(
-			<EditorTabStack.Navigator>
-				<EditorTabStack.Screen 
-					name="EditorScreen"
-					options={{headerShown: false}}
-					component={EditorScreen}/>
-				<EditorTabStack.Screen 
-					name="PublishScreen"
-					options={{headerShown: false}}
-					component={PublishScreen}/>
-				<EditorTabStack.Screen 
-					name="ConfigurationsScreen"
-					options={{headerShown: true}}
-					component={ConfigurationsScreen}/>
-			</EditorTabStack.Navigator>
-		)
+		<EditorTabStack.Navigator>
+			<EditorTabStack.Screen 
+				name="EditorScreen"
+				options={{headerShown: false}}
+				component={EditorScreen}/>
+			<EditorTabStack.Screen 
+				name="PublishScreen"
+				options={{headerShown: false}}
+				component={PublishScreen}/>
+			<EditorTabStack.Screen 
+				name="ConfigurationsScreen"
+				options={{headerShown: true}}
+				component={ConfigurationsScreen}/>
+		</EditorTabStack.Navigator>
+	)
 }
 export function getMyStoriesTabScreens(){
 	return(
@@ -72,11 +76,11 @@ export function getMyStoriesTabScreens(){
 
 export function getLoginPages(){
 	return(
-			<SigninStack.Navigator
-				screenOptions={{headerShown: false}}>
-				<SigninStack.Screen 
-					name="SigninScreen" 
-					component={SigninScreen}/>
-			</SigninStack.Navigator>
-		)
+		<SigninStack.Navigator
+			screenOptions={{headerShown: false}}>
+			<SigninStack.Screen 
+				name="SigninScreen" 
+				component={SigninScreen}/>
+		</SigninStack.Navigator>
+	)
 }

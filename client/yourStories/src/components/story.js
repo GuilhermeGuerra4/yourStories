@@ -25,7 +25,7 @@ export default function Story(props){
 	}
 
 	return(
-			<TouchableOpacity onPress={goToStoryDetailsScreen}>
+			<TouchableOpacity activeOpacity={0.6} onPress={goToStoryDetailsScreen}>
 				<View style={style.container}>
 					<View style={style.sub}>
 						<Text style={style.title}>{getTitle(props.title)}</Text>
