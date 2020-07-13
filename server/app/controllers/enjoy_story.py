@@ -22,8 +22,8 @@ def enjoy_story():
 			if story == 0:
 				response['message'] = 'story not found'
 			else:
-				has_already_enjoyed_post = Enjoy.query.filter_by(story_id=story_id).count()
 				user = get_user_by_token(token)
+				has_already_enjoyed_post = Enjoy.query.filter_by(story_id=story_id, user_id=user.id).count()
 				if has_already_enjoyed_post == 1:
 					enjoy = Enjoy.query.filter_by(user_id=user.id, story_id=story_id).delete()
 					response['message'] = 'enjoy removed'

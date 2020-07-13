@@ -1,6 +1,6 @@
 from __main__ import app
 from app.db import db
-from app.models.tables import User, Story, View, Comment
+from app.models.tables import User, Story, View, Comment, Enjoy
 from app.functions.auth_help import verify_login
 from app.functions.user import get_user_by_token
 from flask import request
@@ -16,7 +16,7 @@ def get_story(token=None, story_id=None):
 		if is_signed == False:
 			response['message'] = 'not authorized'
 		else:
-
+			user = get_user_by_token(token)
 			sql_query = "SELECT story.*,\
 				(SELECT COUNT(comment.id) from comment WHERE comment.story_id LIKE story.id) as 'comments',\
 				(SELECT COUNT(view.story_id) from view WHERE view.story_id LIKE story.id) as 'views',\
@@ -27,6 +27,9 @@ def get_story(token=None, story_id=None):
 			result = db.session.execute(sql_query)
 			story = result.fetchone()
 
+			is_liked_by_user = Enjoy.query.filter_by(story_id=story_id, user_id=user.id).count()
+			is_liked_by_user = True if is_liked_by_user == 1 else False
+
 			if story == None:
 				response['message'] = 'story not found'
 			else:					
@@ -36,6 +39,7 @@ def get_story(token=None, story_id=None):
 					"text": story[2],\
 					"preview": story[3],\
 					"tags": story[4],\
+					"is_liked_by_user": is_liked_by_user,
 					"datetime_created": story[5],\
 					"publisher_id": story[6],\
 					"views": story.views,\
