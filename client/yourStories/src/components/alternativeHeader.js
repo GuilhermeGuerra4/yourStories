@@ -6,9 +6,6 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 export default function AlternativeHeader(props){
 		
 	function goBack(){
-		props.navigation.dangerouslyGetParent().setOptions({
-  			tabBarVisible: true
-		});
 		props.callback();
 	}
 
@@ -18,6 +15,8 @@ export default function AlternativeHeader(props){
 				<TouchableOpacity onPress={goBack}>
 					<Icon name={"arrow-left"} style={styles.goBackButton} color={"#444"} size={35}/>
 				</TouchableOpacity>
+
+				<Text style={styles.title}>{props.title}</Text>
 			</View>
 		);
 }
@@ -32,5 +31,11 @@ const styles = StyleSheet.create({
 	},	
 	goBackButton: {
 		margin: 6,
+	},
+	title: {
+		fontSize: 20,
+		marginTop: 12,
+		fontWeight: "bold",
+		marginLeft: 4,
 	},
 });
