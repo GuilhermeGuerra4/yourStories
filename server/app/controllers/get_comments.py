@@ -31,7 +31,7 @@ def get_comments(token=None, post_id=None, page=None):
 			for comm in comments.items:
 				comments_array.append({'id': comm[0], 'user_id': comm[1], 'story_id':comm[2], 'comment': comm[3], 'user_fullname': comm[4], 'user_photo': comm[5]})
 			
-
+			response['last_page'] = True if page_size > len(comments_array) else False
 			response['status'] = True
 			response['message'] = 'ok'
 			response['payload'] = {'size': len(comments_array), 'data': comments_array}
