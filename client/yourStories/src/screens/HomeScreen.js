@@ -4,6 +4,8 @@ import {Components,
 	View, Text, TouchableOpacity, FlatList,
 	ToastAndroid, StyleSheet, Dimensions, ActivityIndicator} from "react-native";
 
+import { useFocusEffect } from '@react-navigation/native';
+
 import Header from '../components/header';
 import Story from '../components/story';
 import Loading from "../components/loading";
@@ -75,6 +77,12 @@ export default function HomeScreen({navigation}){
 	function loadMoreStories(){
 		loadStories();
 	}
+
+	useFocusEffect(() => {
+		navigation.dangerouslyGetParent().setOptions({
+  			tabBarVisible: true
+		});
+	});
 	
 	useEffect(() => {
 		AsyncStorage.multiGet(['token', 'photo'], (err, stores) => {
