@@ -22,7 +22,7 @@ export default function List(props){
 				onRefresh={props.handleRefresh}
 				keyExtractor={item => String(item.id)}
 				onEndReached={props.onEndReached}
-				onEndReachedThreshold={0.8}
+				onEndReachedThreshold={0.2}
 				ListFooterComponent={renderFooter}
 				/>
 		</View>

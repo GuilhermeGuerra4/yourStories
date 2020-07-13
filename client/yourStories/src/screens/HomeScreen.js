@@ -40,6 +40,7 @@ export default function HomeScreen({navigation}){
 				if(page != 1){
 					setIsLoadingMore(true);
 				}
+				setIsLoading(true);
 				api.get('/get_stories/'+token+'/'+page+'/').then((res) => {
 					if(res.data.last_page == true){
 						setIsFinish(true);
