@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect} from "react";
 import {
 	Components,
 	View,
@@ -8,6 +8,7 @@ import {
 	TouchableOpacity,
 	Image,
 	AsyncStorage,
+	ActivityIndicator,
 } from "react-native";
 
 import {primaryColor, primaryColorDarker} from "../assets/colors";
@@ -18,9 +19,17 @@ import {AuthContext} from "../components/context";
 export default function SigninScreen({navigation}){
 
 	const authManager = useContext(AuthContext);
+	const [isSigningIn, setIsSigningIn] = useState(false);
+	
 	const signin = async () => {
-		authManager.signIn();
+		await setIsSigningIn(true);
 	};
+
+	useEffect(() => {
+		if(isSigningIn == true){
+			authManager.signIn();
+		}
+	}, [isSigningIn]);
 
 	return(
 		<View style={style.background}>
@@ -32,18 +41,20 @@ export default function SigninScreen({navigation}){
 					style={{ width: "65%", height: 55 }}
 					size={GoogleSigninButton.Size.Wide}
 					onPress={signin}
+					disabled={isSigningIn}
 					color={GoogleSigninButton.Color.Dark}/>
 			</View>
 			<View style={style.terms}>
 				<Text style={style.termsText}> 
 					By signin you agree with our 
 				</Text>
-				<TouchableOpacity>
+				<TouchableOpacity style={style.toucharea}>
 					<Text style={style.termsTextLink}> terms</Text>
 				</TouchableOpacity>
 			</View>
 		</View>
-		)
+	)
+	
 }
 
 const style = StyleSheet.create({
@@ -73,10 +84,14 @@ const style = StyleSheet.create({
 		flexDirection: "row",
 	},
 	termsText: {
-		fontSize: 14,
+		fontSize: 16,
 		color: "#fff",
 	},
 	termsTextLink: {
+		fontSize: 16,
 		color: "#00aaFF",
+	},
+	loading: {
+		marginTop: 50,
 	},
 });
