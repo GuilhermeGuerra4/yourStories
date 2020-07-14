@@ -46,15 +46,15 @@ export function getEditorTabScreens(){
 		<EditorTabStack.Navigator>
 			<EditorTabStack.Screen 
 				name="EditorScreen"
-				options={{headerShown: false}}
+				options={options}
 				component={EditorScreen}/>
 			<EditorTabStack.Screen 
 				name="PublishScreen"
-				options={{headerShown: false}}
+				options={options}
 				component={PublishScreen}/>
 			<EditorTabStack.Screen 
 				name="ConfigurationsScreen"
-				options={{headerShown: true}}
+				options={options}
 				component={ConfigurationsScreen}/>
 		</EditorTabStack.Navigator>
 	)
