@@ -1,16 +1,20 @@
-import React, {useContext, useState} from "react";
+import React, {useContext, useState, useEffect} from "react";
 import {Components, View, Text, TouchableOpacity, StyleSheet, ActivityIndicator, Share} from "react-native";
 import AlternativeHeader from "../components/alternativeHeader";
 import {primaryColor} from "../assets/colors";
 import Icon from 'react-native-vector-icons/FontAwesome';  
-import {AuthContext} from "../components/context";
+import {AuthContext} from "../components/context"; 
+import { useFocusEffect } from '@react-navigation/native';
 
 
 export default function ConfigurationScreen({navigation}){
-	
-	navigation.dangerouslyGetParent().setOptions({
-  		tabBarVisible: false
-	});
+		
+	useEffect(() => {
+		console.log(navigation);
+		/*navigation.dangerouslyGetParent().setOptions({
+  			tabBarVisible: false
+		});*/
+	}, []);
 
 	function goBack(){
 		navigation.goBack();
@@ -38,7 +42,7 @@ export default function ConfigurationScreen({navigation}){
 	else{
 		return(
 			<View style={styles.back}>
-				<AlternativeHeader title={"Configurations"} callback={goBack}/>
+				<AlternativeHeader navigation={navigation} title={"Configurations"} callback={goBack}/>
 				<View style={styles.container}>
 					<TouchableOpacity onPress={share} style={styles.touchableArea}>
 						<Text style={styles.share}>Share App</Text>
