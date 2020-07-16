@@ -15,7 +15,7 @@ import ConfigurationsScreen from "./screens/ConfigurationsScreen";
 import EditorScreen from "./screens/EditorScreen";
 import HomeScreen from "./screens/HomeScreen";
 import MyStoriesScreen from "./screens/MyStoriesScreen";
-import PublishScreen from "./screens/StoryDetailsScreen";
+import PublishScreen from "./screens/PublishScreen";
 import SigninScreen from "./screens/SigninScreen";
 import StoryDetailsScreen from "./screens/StoryDetailsScreen";
 
