@@ -33,12 +33,13 @@ const styles = StyleSheet.create({
 		flexDirection: "row",
 	},	
 	goBackButton: {
-		margin: 6,
+		marginTop: 5,
+		marginLeft: 10,
 	},
 	title: {
-		fontSize: 20,
-		marginTop: 12,
+		fontSize: 19,
+		marginTop: 11,
 		fontWeight: "bold",
-		marginLeft: 4,
+		marginLeft: 13,
 	},
 });
