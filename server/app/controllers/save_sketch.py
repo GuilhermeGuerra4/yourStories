@@ -35,4 +35,7 @@ def save_sketch():
 				response['message'] = 'story saved'
 			db.session.commit()
 
+			last_story = Story.query.filter_by(publisher_id=user.id, status='in_sketch').with_entities(Story.id).first()
+			response["id"] = last_story.id
+
 	return(json.dumps(response))
