@@ -1,10 +1,120 @@
-import React from "react";
-import {Components, View, Text} from "react-native";
+import React, {useEffect, useState, useRef} from "react";
+import {Components, View, Text, TextInput, Keyboard, StyleSheet, TouchableNativeFeedback, ActivityIndicator, ToastAndroid} from "react-native";
+import AlternativeHeader from "../components/alternativeHeader";
+import {primaryColor} from "../assets/colors";
+import api from "../libraries/axios";
 
-export default function PublishScreen({navigation}){
+export default function PublishScreen({navigation, route}){
+	const sketch_id = route.params.id;
+	const token = route.params.token;
+	const [title, setTitle] = useState("");
+	const [tags, setTags] = useState("");
+	const titleInput = useRef(null);
+	const tagsInput = useRef(null);
+	const [isPublising, setIspubling] = useState(false);
+	
+	useEffect(() => {
+		navigation.dangerouslyGetParent().setOptions({
+  			tabBarVisible: false
+		});
+		
+	}, []);
+
+	function goBack(){
+		navigation.goBack();
+	}
+
+	function publish(){
+		if(title.trim() == ""){
+			ToastAndroid.show("Title cannot be empty", ToastAndroid.SHORT);
+		}
+		else{
+			setIspubling(true);
+			api.post("/publish_sketch", "token="+token+"&id="+sketch_id+"&title="+title+"&tags="+tags).then((res) => {
+				if(res.data.status == true){
+					ToastAndroid.show("Story published", ToastAndroid.SHORT);
+					goBack();
+				}
+				else{
+					ToastAndroid.show("Error during publishing the story", ToastAndroid.SHORT);
+				}
+				setIspubling(false);
+			}).catch((res) => {
+				ToastAndroid.show("Error during publishing the story", ToastAndroid.SHORT);
+			});
+		}
+
+	
+	}
+
+	function handleChangeTitle(title){
+		setTitle(title);
+	}
+
+	function handleChangeTags(tags){
+		setTags(tags);
+	}
+
 	return(
-			<View>
-				<Text>PublishScreen</Text>
-			</View>
-		)
+		<View>
+			<AlternativeHeader callback={goBack} navigation={navigation} title="Publish story"/>
+			<TextInput 
+				value={title} 
+				onChangeText={handleChangeTitle}
+				ref={titleInput}
+				style={styles.input}	
+				placeholder={"Title"}/>
+			
+			<TextInput 
+				multiline={true}
+				numberOfLines={5}
+				value={tags}
+				ref={tagsInput}
+				onChangeText={handleChangeTags}
+				style={[styles.input, {textAlignVertical: "top"}]}
+				placeholder={"Tags"}/>
+
+			<TouchableNativeFeedback disabled={isPublising} onPress={publish}>
+				{isPublising == false ? (
+					<View style={styles.btc}>
+						<Text style={styles.textd}>Publish</Text>
+					</View>
+
+					) : (
+
+				<View style={styles.btc}>
+					<ActivityIndicator size={30} color={"#fff"}/>
+				</View>
+
+					)}
+			</TouchableNativeFeedback>
+
+			
+		</View>
+	)
 }
+
+const styles = StyleSheet.create({
+	input: {
+		width: "90%",
+		alignSelf: "center",
+		marginTop: 20,
+		paddingLeft: 10,
+		elevation: 2,
+		backgroundColor: "#fff",
+	},
+	btc: {
+		padding: 10,
+		width: "90%",
+		height: 40,
+		alignSelf: "center",
+		marginTop: 20,
+		alignItems: "center",
+		elevation: 2,
+		justifyContent: "center",
+		backgroundColor: primaryColor,
+	},
+	textd: {
+		color: "#fff",
+	}
+});

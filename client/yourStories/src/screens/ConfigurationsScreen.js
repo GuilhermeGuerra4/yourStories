@@ -10,10 +10,9 @@ import { useFocusEffect } from '@react-navigation/native';
 export default function ConfigurationScreen({navigation}){
 		
 	useEffect(() => {
-		console.log(navigation);
-		/*navigation.dangerouslyGetParent().setOptions({
+		navigation.dangerouslyGetParent().setOptions({
   			tabBarVisible: false
-		});*/
+		});
 	}, []);
 
 	function goBack(){
