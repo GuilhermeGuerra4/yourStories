@@ -34,20 +34,27 @@ export default function EditorScreen({navigation, route}){
 	const [sketchId, setSketchId] = useState(false);
 	const [inputHeight, setInputHeight] = useState(Dimensions.get('window').height - 155);
 	const [isSaving, setIsSaving] = useState(false);
-
+	const [isFocused, setIsFocused] = useState(false);
+	const [isInOther, setIsInOther] = useState(false); 
 
 	function _keyboardDidShow(e){
-		navigation.dangerouslyGetParent().setOptions({
-  			tabBarVisible: false,
-		});
-		setInputHeight(Dimensions.get('window').height - e.endCoordinates.height - 105);
+		
+		if(isInOther == false){
+			navigation.dangerouslyGetParent().setOptions({
+	  			tabBarVisible: false,
+			});
+			setInputHeight(Dimensions.get('window').height - e.endCoordinates.height - 105);
+		}
 	}
 
 	function _keyboardDidHide(e){
-		navigation.dangerouslyGetParent().setOptions({
-  			tabBarVisible: true,
-		});
-		setInputHeight(Dimensions.get('window').height - 155);
+		
+		if(isInOther == false){
+			navigation.dangerouslyGetParent().setOptions({
+	  			tabBarVisible: true,
+			});
+			setInputHeight(Dimensions.get('window').height - 155);
+		}
 	}
 	
 	useEffect(() => {
@@ -67,40 +74,78 @@ export default function EditorScreen({navigation, route}){
 			});
 		});
 
-		Keyboard.addListener('keyboardDidShow', _keyboardDidShow);
-    	Keyboard.addListener('keyboardDidHide', _keyboardDidHide);
 	}, []);
 
 	useEffect(()=>{
+
 		if(token != null && text == ""){
 			load_sketch();
 		}
 	}, [token]);
 
+	useFocusEffect(()=>{
+		setIsFocused(true);	
+
+		return () => {
+			setIsFocused(false);	
+		}
+	}, [route]);
+
+	useEffect(()=>{
+		if(isFocused == false){
+			Keyboard.removeListener('keyboardDidShow', _keyboardDidShow);
+    		Keyboard.removeListener('keyboardDidHide', _keyboardDidHide);
+		}
+		else{
+			navigation.dangerouslyGetParent().setOptions({
+  				tabBarVisible: true,
+			});
+			
+			load_sketch();
+
+		}
+	}, [isFocused]);
+
+
+
+
 	function handle_save_sketch(){
 		save_sketch();
 	}
 	function handle_publish(){
-		api.put("/save_sketch", "text="+text+"&token="+token).then((res) => {
-			if(res.data.status == true){
-				navigation.navigate("PublishScreen", {"id": res.data.id});
-			}
-		});
+		if(text.trim() != ""){
+			api.put("/save_sketch", "text="+text+"&token="+token).then((res) => {
+				if(res.data.status == true){
+					setIsInOther(true);
+					setText("");
+					navigation.navigate("PublishScreen", {"id": res.data.id, "token": token});
+				}
+			});
+		}
+		else{
+			ToastAndroid.show("Must write something before publish", ToastAndroid.SHORT);
+		}
 	}
+
 	function save_sketch(){
-		setIsSaving(true);
-		api.put("/save_sketch", "text="+text+"&token="+token).then((res) => {
-			
-			if(res.data.status == true){
-				setSketchId(res.data.id);
-				ToastAndroid.show("Sketch saved", ToastAndroid.SHORT);
-			}
-			else{
-				ToastAndroid.show("Error during saving", ToastAndroid.SHORT);
-			}
-			
-			setIsSaving(false);
-		});
+		if(text.trim() != ""){
+			setIsSaving(true);
+			api.put("/save_sketch", "text="+text+"&token="+token).then((res) => {
+				
+				if(res.data.status == true){
+					setSketchId(res.data.id);
+					ToastAndroid.show("Sketch saved", ToastAndroid.SHORT);
+				}
+				else{
+					ToastAndroid.show("Error during saving", ToastAndroid.SHORT);
+				}
+				
+				setIsSaving(false);
+			});
+		}
+		else{
+			ToastAndroid.show("Must write something before save", ToastAndroid.SHORT);
+		}
 	}
 	function load_sketch(){
 		api.get("/get_sketch/"+token+"/", {}).then((res) => {
