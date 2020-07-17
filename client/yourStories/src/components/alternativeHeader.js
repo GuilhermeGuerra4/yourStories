@@ -6,9 +6,12 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 export default function AlternativeHeader(props){
 		
 	function goBack(){
-		props.navigation.dangerouslyGetParent().setOptions({
-  			tabBarVisible: true,
-		});
+		try{
+			props.navigation.dangerouslyGetParent().setOptions({
+	  			tabBarVisible: true,
+			});
+		}
+		catch(err){}
 		props.callback();
 	}
 
