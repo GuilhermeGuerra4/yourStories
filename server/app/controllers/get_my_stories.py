@@ -26,7 +26,7 @@ def get_my_stories(token=None, page=None):
 			fetch = Story.query.filter_by(status='published', publisher_id=user.id) \
 				.with_entities(Story.id, Story.title, Story.preview) \
 				.order_by(Story.datetime_created.desc()) \
-				.paginate(per_page=page_size, page=page) \
+				.paginate(per_page=page_size, page=page, error_out=False) \
 
 			data = []
 
@@ -44,6 +44,7 @@ def get_my_stories(token=None, page=None):
 
 			response['status'] = True
 			response['message'] = 'ok'
+			response['last_page'] = True if page_size > len(fetch.items) else False
 			response['size'] = len(data)
 			response['payload'] = data
 
