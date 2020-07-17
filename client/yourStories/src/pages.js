@@ -67,6 +67,10 @@ export function getMyStoriesTabScreens(){
 				options={{headerShown: false}}
 				component={MyStoriesScreen}/>
 			<MyStoriesTabStack.Screen 
+				name="ConfigurationsScreen"
+				options={options}
+				component={ConfigurationsScreen}/>
+			<MyStoriesTabStack.Screen 
 				name="StoryDetailsScreen"
 				options={{headerShown: false}}
 				component={StoryDetailsScreen}/>
