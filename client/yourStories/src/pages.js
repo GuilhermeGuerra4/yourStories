@@ -64,7 +64,7 @@ export function getMyStoriesTabScreens(){
 		<MyStoriesTabStack.Navigator>
 			<MyStoriesTabStack.Screen 
 				name="MyStoriesScreen"
-				options={{headerShown: false}}
+				options={options}
 				component={MyStoriesScreen}/>
 			<MyStoriesTabStack.Screen 
 				name="ConfigurationsScreen"
@@ -72,7 +72,7 @@ export function getMyStoriesTabScreens(){
 				component={ConfigurationsScreen}/>
 			<MyStoriesTabStack.Screen 
 				name="StoryDetailsScreen"
-				options={{headerShown: false}}
+				options={options}
 				component={StoryDetailsScreen}/>
 		</MyStoriesTabStack.Navigator>
 	)
