@@ -6,6 +6,7 @@ import api from "../libraries/axios";
 import {primaryColor} from "../assets/colors";
 import Icon from 'react-native-vector-icons/FontAwesome';  
 import Loading from "../components/loading";
+import StatusMessage from "../components/statusMessage";
 
 export default function myStoriesScreen({navigation}){
 
@@ -17,6 +18,7 @@ export default function myStoriesScreen({navigation}){
 	const [isRefreshing, setIsRefreshing] = useState(false);
 	const [downLoading, setDownLoading] = useState(false);
 	const [storiesEnded, setStoriesEnded] = useState(false);
+	const [isEmpty, setIsEmpty] = useState(false);
 
 	useEffect(() => {
 		AsyncStorage.multiGet(['token', 'photo'], (err, stores) => {
@@ -49,6 +51,9 @@ export default function myStoriesScreen({navigation}){
 			}
 			api.get("/get_my_stories/"+token+"/"+page+"/").then((res)=>{
 				if(res.data.status == true){
+					if(res.data.size == 0 && page == 1){
+						setIsEmpty(true);
+					}
 					if(res.data.last_page == true){
 						setStoriesEnded(true);
 					}
@@ -135,6 +140,14 @@ export default function myStoriesScreen({navigation}){
 				<Loading/>
 			</View>
 		);
+	}
+	else if(isEmpty){
+		return(
+			<View>
+				<Header navigation={navigation} profile_image={photo} />
+				<StatusMessage message="No stories yet"/>
+			</View>
+		)
 	}
 	else{
 		return(
