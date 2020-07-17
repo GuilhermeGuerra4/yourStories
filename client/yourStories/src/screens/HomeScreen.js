@@ -55,7 +55,7 @@ export default function HomeScreen({navigation}){
 							setIsEmpty(false);
 							setStatus('loaded');
 						}
-						else{
+						else if(page == 1){
 							setStatus('empty');
 						}
 					}
