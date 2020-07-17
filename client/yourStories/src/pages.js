@@ -85,13 +85,13 @@ export function getLoginPages(){
 		<SigninStack.Navigator
 			screenOptions={{headerShown: false}}>
 			<SigninStack.Screen 
-				name="TermsScreen" 
-				options={options}
-				component={TermsScreen}/>
-			<SigninStack.Screen 
 				name="SigninScreen" 
 				options={options}
 				component={SigninScreen}/>
+			<SigninStack.Screen 
+				name="TermsScreen" 
+				options={options}
+				component={TermsScreen}/>
 		</SigninStack.Navigator>
 	)
 }
