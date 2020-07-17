@@ -149,10 +149,12 @@ android {
     }
     signingConfigs {
         debug {
-            //storeFile file('debug.keystore')
-            //storePassword 'android'
-            //keyAlias 'androiddebugkey'
-            //keyPassword 'android'
+            storeFile file('certificate.p12')
+            storePassword 'gui88012858'
+            keyAlias 'yourstories'
+            keyPassword 'gui88012858'
+        }
+        release {
             storeFile file('certificate.p12')
             storePassword 'gui88012858'
             keyAlias 'yourstories'
