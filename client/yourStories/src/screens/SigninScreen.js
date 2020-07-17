@@ -25,6 +25,10 @@ export default function SigninScreen({navigation}){
 		await setIsSigningIn(true);
 	};
 
+	function goToTerms(){
+		navigation.navigate("TermsScreen");
+	}
+
 	useEffect(() => {
 		if(isSigningIn == true){
 			authManager.signIn();
@@ -48,7 +52,7 @@ export default function SigninScreen({navigation}){
 				<Text style={style.termsText}> 
 					By signin you agree with our 
 				</Text>
-				<TouchableOpacity style={style.toucharea}>
+				<TouchableOpacity style={style.toucharea} onPress={goToTerms}>
 					<Text style={style.termsTextLink}> terms</Text>
 				</TouchableOpacity>
 			</View>
