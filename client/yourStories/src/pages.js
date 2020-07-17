@@ -18,6 +18,8 @@ import MyStoriesScreen from "./screens/MyStoriesScreen";
 import PublishScreen from "./screens/PublishScreen";
 import SigninScreen from "./screens/SigninScreen";
 import StoryDetailsScreen from "./screens/StoryDetailsScreen";
+import TermsScreen from "./screens/TermsScreen";
+
 
 import {DefaultTransition} from "./animations/defaultTransition";
 
@@ -83,7 +85,12 @@ export function getLoginPages(){
 		<SigninStack.Navigator
 			screenOptions={{headerShown: false}}>
 			<SigninStack.Screen 
+				name="TermsScreen" 
+				options={options}
+				component={TermsScreen}/>
+			<SigninStack.Screen 
 				name="SigninScreen" 
+				options={options}
 				component={SigninScreen}/>
 		</SigninStack.Navigator>
 	)
