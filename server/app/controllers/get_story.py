@@ -1,10 +1,10 @@
 from __main__ import app
 from app.db import db
-from app.models.tables import User, Story, View, Comment, Enjoy
+from app.models.tables import User, Story, View, Comment, Enjoy, View
 from app.functions.auth_help import verify_login
 from app.functions.user import get_user_by_token
 from flask import request
-import json
+import json, time
 
 @app.route('/get_story/<token>/<int:story_id>/', methods=['GET'])
 def get_story(token=None, story_id=None):
@@ -32,7 +32,14 @@ def get_story(token=None, story_id=None):
 
 			if story == None:
 				response['message'] = 'story not found'
-			else:					
+			else:
+
+				viewscount = View.query.filter_by(story_id=story_id, user_id=user.id).count()
+				if viewscount == 0:
+					new_view = View(user_id=user.id, story_id=story[0], duration=0, datetime=time.time())
+					db.session.add(new_view)
+					db.session.commit()
+
 				response['payload'] = {\
 					"id": story[0],\
 					"title": story[1],\
