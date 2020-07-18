@@ -12,13 +12,12 @@ export default function PublishScreen({navigation, route}){
 	const titleInput = useRef(null);
 	const tagsInput = useRef(null);
 	const [isPublising, setIspubling] = useState(false);
-	
-	useEffect(() => {
+
+	useEffect(()=>{
 		navigation.dangerouslyGetParent().setOptions({
-  			tabBarVisible: false
+  			tabBarVisible: false,
 		});
-		
-	}, []);
+	});
 
 	function goBack(){
 		navigation.goBack();

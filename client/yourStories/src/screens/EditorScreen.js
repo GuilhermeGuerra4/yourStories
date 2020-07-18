@@ -20,6 +20,7 @@ import { useFocusEffect } from '@react-navigation/native';
 import api from "../libraries/axios";
 import AsyncStorage from "@react-native-community/async-storage";
 import Header from "../components/header";
+import Loading from "../components/loading";
 import {primaryColor} from "../assets/colors";
 
 
@@ -35,11 +36,11 @@ export default function EditorScreen({navigation, route}){
 	const [inputHeight, setInputHeight] = useState(Dimensions.get('window').height - 155);
 	const [isSaving, setIsSaving] = useState(false);
 	const [isFocused, setIsFocused] = useState(false);
-	const [isInOther, setIsInOther] = useState(false); 
+	const [isFocus, setIsFocus] = useState(true);
+	const [isLoading, setIsLoading] = useState(true);
 
 	function _keyboardDidShow(e){
-		
-		if(isInOther == false){
+		if(isFocus){
 			navigation.dangerouslyGetParent().setOptions({
 	  			tabBarVisible: false,
 			});
@@ -48,8 +49,7 @@ export default function EditorScreen({navigation, route}){
 	}
 
 	function _keyboardDidHide(e){
-		
-		if(isInOther == false){
+		if(isFocus){
 			navigation.dangerouslyGetParent().setOptions({
 	  			tabBarVisible: true,
 			});
@@ -73,40 +73,35 @@ export default function EditorScreen({navigation, route}){
 				}
 			});
 		});
-
 	}, []);
 
 	useEffect(()=>{
-
-		if(token != null && text == ""){
+		console.log("init");
+		if(token != null && text.length == 0){
 			load_sketch();
 		}
 	}, [token]);
 
-	useFocusEffect(()=>{
-		setIsFocused(true);	
-
-		return () => {
-			setIsFocused(false);	
-		}
-	}, [route]);
 
 	useEffect(()=>{
-		if(isFocused == false){
+		setIsFocus(true);
+		navigation.addListener("blur", function(){
 			Keyboard.removeListener('keyboardDidShow', _keyboardDidShow);
-    		Keyboard.removeListener('keyboardDidHide', _keyboardDidHide);
-		}
-		else{
-			navigation.dangerouslyGetParent().setOptions({
-  				tabBarVisible: true,
-			});
-			
-			load_sketch();
+			Keyboard.removeListener('keyboardDidHide', _keyboardDidHide);
+			setIsFocus(false);
+		});
 
-		}
-	}, [isFocused]);
+		navigation.addListener("focus", function(){
+			Keyboard.addListener('keyboardDidShow', _keyboardDidShow);
+			Keyboard.addListener('keyboardDidHide', _keyboardDidHide);
 
-
+			if(text.length == 0 && token != null){
+				setIsLoading(true);
+				load_sketch();	
+			}
+			setIsFocus(true);
+		});
+	}, []);
 
 
 	function handle_save_sketch(){
@@ -114,10 +109,11 @@ export default function EditorScreen({navigation, route}){
 	}
 	function handle_publish(){
 		if(text.trim() != ""){
+			setIsSaving(true);
 			api.put("/save_sketch", "text="+text+"&token="+token).then((res) => {
 				if(res.data.status == true){
-					setIsInOther(true);
 					setText("");
+					setIsSaving(false);
 					navigation.navigate("PublishScreen", {"id": res.data.id, "token": token});
 				}
 			});
@@ -152,6 +148,7 @@ export default function EditorScreen({navigation, route}){
 			if(res.data.status == true){
 				setSketchId(res.data.payload.id);
 				setText(res.data.payload.text); 
+				setIsLoading(false);
 			}
 		});
 	}
@@ -171,15 +168,23 @@ export default function EditorScreen({navigation, route}){
 	return(
 		<View style={styles.container}>
 			<Header profile_image={photo} navigation={navigation}/>
-			<View style={styles.web}>
-				<TextInput 
-					placeholder={"Start writting your story..."}
-					multiline={true}
-					ref={storyInput}
-					onChangeText={handleChange}
-					value={text}
-					style={[{height:inputHeight}, styles.input]}/>
-			</View>
+			
+			{isLoading == true ? (
+				<View>
+					<Loading />
+				</View>				
+			) : (
+				<View style={styles.web}>
+					<TextInput 
+						placeholder={"Start writting your story..."}
+						multiline={true}
+						ref={storyInput}
+						onChangeText={handleChange}
+						value={text}
+						style={[{height:inputHeight}, styles.input]}/>
+				</View>
+			)}
+
 
 			<View style={styles.toolbar}>
 				<TouchableOpacity onPress={handle_save_sketch} style={styles.touchable}>

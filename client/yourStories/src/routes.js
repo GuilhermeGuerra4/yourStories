@@ -68,7 +68,7 @@ const Routes = () => {
 						save(data);
 					}
 					else{
-						console.log(res.data);
+						console.log(error);
 					}
 				}).catch((error) => {
 					console.log(error);
