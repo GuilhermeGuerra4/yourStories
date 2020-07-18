@@ -39,6 +39,13 @@ export default function myStoriesScreen({navigation}){
 		if(token != null && stories.length == 0){
 			loadMyStories();
 		}
+
+		navigation.addListener("focus", function(){
+			if(token != null && stories.length == 0){
+				loadMyStories();
+			}
+		});
+
 	}, [token]);
 
 	function loadMyStories(){
@@ -116,17 +123,17 @@ export default function myStoriesScreen({navigation}){
 					
 					<View style={[styles.inline]}>
 						<View style={[styles.inline, styles.margin]}>
-							<Icon name={"eye"} size={25}/>
+							<Icon color="#444" name={"eye"} size={25}/>
 							<Text style={styles.count}>{story.item.views}</Text>
 						</View>
 
 						<View style={styles.inline}>
-							<Icon name={"heart"} size={25}/>
+							<Icon color="#444" name={"heart"} size={25}/>
 							<Text style={styles.count}>{story.item.enjoys}</Text>
 						</View>
 
 						<View style={styles.inline}>
-							<Icon name={"comments"} size={25}/>
+							<Icon color="#444" name={"comments"} size={25}/>
 							<Text style={styles.count}>{story.item.enjoys}</Text>
 						</View>
 					</View>
@@ -199,6 +206,7 @@ const styles = StyleSheet.create({
 		fontWeight: "bold",
 		marginTop: 5,
 		marginBottom: 10,
+		color: "#222",
 	},
 	loading: {
 		marginTop: 80,
