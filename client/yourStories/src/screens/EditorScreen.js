@@ -148,8 +148,9 @@ export default function EditorScreen({navigation, route}){
 			if(res.data.status == true){
 				setSketchId(res.data.payload.id);
 				setText(res.data.payload.text); 
-				setIsLoading(false);
 			}
+
+			setIsLoading(false);
 		});
 	}
 	function handleChange(text){
