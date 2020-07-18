@@ -82,17 +82,19 @@ export default function myStoriesScreen({navigation}){
 	}
 
 	function refresh(){
-		if(isRefreshing == false){
+		if(isRefreshing == false && isLoading == false){
 			setIsRefreshing(true);
-			setStories(stories => []);
-			setPage(1);				
-		}	
+			setPage(1);
+			setStoriesEnded(false);
+			setStories([]);
+		}
 	}
-	useEffect(() => {
+	useEffect(()=>{
 		if(isRefreshing == true && stories.length == 0){
 			loadMyStories();
 		}
 	}, [isRefreshing]);
+
 
 	function renderFooter(){
 		if(downLoading){
