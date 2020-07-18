@@ -71,7 +71,7 @@ export default function PublishScreen({navigation, route}){
 				ref={tagsInput}
 				onChangeText={handleChangeTags}
 				style={[styles.input, {textAlignVertical: "top"}]}
-				placeholder={"Tags"}/>
+				placeholder={"Hashtags"}/>
 
 			<TouchableNativeFeedback disabled={isPublising} onPress={publish}>
 				{isPublising == false ? (
