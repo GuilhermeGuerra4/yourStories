@@ -6,7 +6,7 @@ from app.functions.user import get_user_by_token
 from flask import request
 import json, time
 
-preview_size = 10
+preview_size = 200
 
 @app.route('/save_sketch', methods=['PUT'])
 def save_sketch():

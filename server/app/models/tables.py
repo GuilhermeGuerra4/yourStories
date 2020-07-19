@@ -12,6 +12,7 @@ class User(db.Model):
 	ip = db.Column(db.String(20), nullable=False)
 	datetime_created_account = db.Column(db.BIGINT, nullable=False)
 	last_datetime_online =  db.Column(db.BIGINT, nullable=False) 
+	push_token = db.Column(db.String(50), nullable=True)
 
 class Story(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
