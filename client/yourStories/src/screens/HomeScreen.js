@@ -17,6 +17,12 @@ import AsyncStorage from '@react-native-community/async-storage';
 import api from "../libraries/axios";
 import {primaryColor} from "../assets/colors";
 
+import OneSignal from 'react-native-onesignal';
+
+OneSignal.init("ee55f1f7-08c2-43f9-9778-332d4841c436");
+OneSignal.inFocusDisplaying	(function(){});
+
+
 export default function HomeScreen({navigation}){
 
 
@@ -31,6 +37,8 @@ export default function HomeScreen({navigation}){
 	const [status, setStatus] = useState('isLoading');
 	const [isFinish, setIsFinish] = useState(false);
 	const [isLoadingMore, setIsLoadingMore] = useState(false);
+	const [pushNotificationEnabled, setPushNotificationEnabled] = useState(null);
+	const [pushToken, setPushToken] = useState(null);
 
 	function goTo(){
 		navigation.navigate('ConfigurationsScreen');
@@ -85,7 +93,7 @@ export default function HomeScreen({navigation}){
 	});
 	
 	useEffect(() => {
-		AsyncStorage.multiGet(['token', 'photo'], (err, stores) => {
+		AsyncStorage.multiGet(['token', 'photo', 'pushNotificationEnabled'], (err, stores) => {
 			stores.map((result, i, store) => {
 				let key = store[i][0];
 				let value = store[i][1];
@@ -95,19 +103,60 @@ export default function HomeScreen({navigation}){
 				else if(key == 'photo'){
 					setPhoto(value);
 				}
+				else if(key == 'pushNotificationEnabled'){
+					if(value == null || value == false){
+						setPushNotificationEnabled(false);
+					}
+					else if(value == "enabled"){
+						setPushNotificationEnabled(true);
+					}
+				}
 			});
 		});
 	}, []);
 
+
 	useEffect(() => {
+		
+		function onReceived(e){
+
+		}
+
+		function onOpened(e){
+			navigation.navigate("StoryDetailsScreen", {story_id: 1});
+		}
+
+		function onIds(e){
+			console.log(e.userId);
+			setPushToken(e.userId);
+		}
+
+		OneSignal.addEventListener('received', onReceived);
+		OneSignal.addEventListener('opened', onOpened);
+		OneSignal.addEventListener('ids', onIds);
+
 		if(token != null && storiesCount == 0){
 			setIsLoading(true);
 			loadStories();
 		}
 	}, [token]);
 
+	useEffect(()=>{
+		if(pushNotificationEnabled != null){
+			if(pushNotificationEnabled == false && pushToken != null){
+				console.log("adding token");
+				api.post("/add_push_token", "token="+token+"&push_token="+pushToken).then((res)=>{
+					console.log(res.data);
+					if(res.data.status == true){
+						AsyncStorage.setItem("pushNotificationEnabled", "enabled");
+					}
+				});
+			}
+		}
+	}, [pushNotificationEnabled]);
+
 	function renderStory(story){
-		return (
+		return (   
 			<Story 
 				navigation={navigation}
 				story_id={story.item.id}
