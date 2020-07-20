@@ -36,7 +36,7 @@ def enjoy_story():
 
 					publisher = User.query.filter_by(id=story.publisher_id).first()
 					if publisher.push_token != None and publisher.id != user.id:
-						header = {"en": "New notification"}
+						header = {"en": "YourStories"}
 						content = {"en": "{0} liked your post".format(user.full_name)}
 						users = [publisher.push_token]
 						data = {'story_id': story.id}

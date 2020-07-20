@@ -36,8 +36,8 @@ def add_comment():
 
 				publisher = User.query.filter_by(id=story.publisher_id).first()
 				if publisher.push_token != None and publisher.id != user.id:
-					header = {"en": "{0} commented on your post".format(user.full_name)}
-					content = {"en": comment}
+					header = {"en":"YourStories"}
+					content = {"en": "{0} commented on your post".format(user.full_name)}
 					users = [publisher.push_token]
 					data = {'story_id': story.id}
 					notify_android_users(content, header, users, data)
