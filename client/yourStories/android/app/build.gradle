@@ -147,15 +147,16 @@ android {
             include "armeabi-v7a", "x86", "arm64-v8a", "x86_64"
         }
     }
+
     signingConfigs {
         debug {
-            storeFile file('certificate.p12')
+            storeFile file('key.keystore')
             storePassword 'gui88012858'
             keyAlias 'yourstories'
             keyPassword 'gui88012858'
         }
         release {
-            storeFile file('certificate.p12')
+            storeFile file('key.keystore')
             storePassword 'gui88012858'
             keyAlias 'yourstories'
             keyPassword 'gui88012858'
