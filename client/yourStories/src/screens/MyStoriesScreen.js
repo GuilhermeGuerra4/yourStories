@@ -7,6 +7,7 @@ import {primaryColor} from "../assets/colors";
 import Icon from 'react-native-vector-icons/FontAwesome';  
 import Loading from "../components/loading";
 import StatusMessage from "../components/statusMessage";
+import  i18n  from '../libraries/tradution';
 
 export default function myStoriesScreen({navigation}){
 
@@ -71,7 +72,7 @@ export default function myStoriesScreen({navigation}){
 				setDownLoading(false);	
 				setIsLoading(false);
 			}).catch(() => {
-				ToastAndroid.show("hallo", ToastAndroid.SHORT);
+				ToastAndroid.show(i18n.t("myStoriesScreen.internet_connection_not_detected"), ToastAndroid.SHORT);
 			});
 		}
 	}
@@ -154,7 +155,7 @@ export default function myStoriesScreen({navigation}){
 		return(
 			<View>
 				<Header navigation={navigation} profile_image={photo} />
-				<StatusMessage message="No stories yet"/>
+				<StatusMessage message={i18n.t("MyStoriesScreen.you_havent_written_any_stories_yet")}/>
 			</View>
 		)
 	}

@@ -22,7 +22,8 @@ import AsyncStorage from "@react-native-community/async-storage";
 import Header from "../components/header";
 import Loading from "../components/loading";
 import {primaryColor} from "../assets/colors";
-
+import  i18n  from '../libraries/tradution';
+ 
 
 export default function EditorScreen({navigation, route}){
 
@@ -76,7 +77,6 @@ export default function EditorScreen({navigation, route}){
 	}, []);
 
 	useEffect(()=>{
-		console.log("init");
 		if(token != null && text.length == 0){
 			load_sketch();
 		}
@@ -119,7 +119,7 @@ export default function EditorScreen({navigation, route}){
 			});
 		}
 		else{
-			ToastAndroid.show("Must write something before publish", ToastAndroid.SHORT);
+			ToastAndroid.show(i18n.t("EditorScreen.write_something_before_publishing"), ToastAndroid.SHORT);
 		}
 	}
 
@@ -130,17 +130,17 @@ export default function EditorScreen({navigation, route}){
 				
 				if(res.data.status == true){
 					setSketchId(res.data.id);
-					ToastAndroid.show("Sketch saved", ToastAndroid.SHORT);
+					ToastAndroid.show(i18n.t("EditorScreen.sketch_saved"), ToastAndroid.SHORT);
 				}
 				else{
-					ToastAndroid.show("Error during saving", ToastAndroid.SHORT);
+					ToastAndroid.show(i18n.t("EditorScreen.error_during_saving"), ToastAndroid.SHORT);
 				}
 				
 				setIsSaving(false);
 			});
 		}
 		else{
-			ToastAndroid.show("Must write something before save", ToastAndroid.SHORT);
+			ToastAndroid.show(i18n.t("EditorScreen.write_something_before_saving"), ToastAndroid.SHORT);
 		}
 	}
 	function load_sketch(){
@@ -177,7 +177,7 @@ export default function EditorScreen({navigation, route}){
 			) : (
 				<View style={styles.web}>
 					<TextInput 
-						placeholder={"Start writting your story..."}
+						placeholder={i18n.t("EditorScreen.start_writing_your_story")}
 						multiline={true}
 						ref={storyInput}
 						onChangeText={handleChange}
@@ -189,11 +189,11 @@ export default function EditorScreen({navigation, route}){
 
 			<View style={styles.toolbar}>
 				<TouchableOpacity onPress={handle_save_sketch} style={styles.touchable}>
-					<Text style={styles.touchtext}>Save sketch</Text>
+					<Text style={styles.touchtext}>{i18n.t("EditorScreen.save_sketch")}</Text>
 				</TouchableOpacity>	
 
 				<TouchableOpacity onPress={handle_publish} style={styles.touchable}>
-					<Text style={styles.touchtext}>Publish</Text>
+					<Text style={styles.touchtext}>{i18n.t("EditorScreen.publish")}</Text>
 				</TouchableOpacity>	
 
 				<View>

@@ -5,6 +5,7 @@ import {primaryColor} from "../assets/colors";
 import Icon from 'react-native-vector-icons/FontAwesome';  
 import {AuthContext} from "../components/context"; 
 import { useFocusEffect } from '@react-navigation/native';
+import  i18n  from '../libraries/tradution';
 
 
 export default function ConfigurationScreen({navigation}){
@@ -26,7 +27,7 @@ export default function ConfigurationScreen({navigation}){
 	};
 
 	const share = async () => {
-		const result = await Share.share({message:'hi'});
+		const result = await Share.share({message:i18n.t("ConfigurationsScreen.share_message")});
 	};
 
 	const [isSigningOut, setIsSignedOut] = useState(false);
@@ -41,13 +42,13 @@ export default function ConfigurationScreen({navigation}){
 	else{
 		return(
 			<View style={styles.back}>
-				<AlternativeHeader navigation={navigation} title={"Configurations"} callback={goBack}/>
+				<AlternativeHeader navigation={navigation} title={i18n.t("ConfigurationsScreen.title")} callback={goBack}/>
 				<View style={styles.container}>
 					<TouchableOpacity onPress={share} style={styles.touchableArea}>
-						<Text style={styles.share}>Share App</Text>
+						<Text style={styles.share}>{i18n.t("ConfigurationsScreen.share")}</Text>
 					</TouchableOpacity>
 					<TouchableOpacity onPress={signout} style={styles.touchableArea}>
-						<Text style={styles.logout}>Logout</Text>
+						<Text style={styles.logout}>{i18n.t("ConfigurationsScreen.logout")}</Text>
 					</TouchableOpacity>
 				</View>
 			</View>

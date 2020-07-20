@@ -3,6 +3,8 @@ import {Components, View, Text, TextInput, Keyboard, StyleSheet, TouchableNative
 import AlternativeHeader from "../components/alternativeHeader";
 import {primaryColor} from "../assets/colors";
 import api from "../libraries/axios";
+import  i18n  from '../libraries/tradution';
+
 
 export default function PublishScreen({navigation, route}){
 	const sketch_id = route.params.id;
@@ -25,21 +27,21 @@ export default function PublishScreen({navigation, route}){
 
 	function publish(){
 		if(title.trim() == ""){
-			ToastAndroid.show("Title cannot be empty", ToastAndroid.SHORT);
+			ToastAndroid.show(i18n.t("PublishScreen.title_cannot_be_empty"), ToastAndroid.SHORT);
 		}
 		else{
 			setIspubling(true);
 			api.post("/publish_sketch", "token="+token+"&id="+sketch_id+"&title="+title+"&tags="+tags).then((res) => {
 				if(res.data.status == true){
-					ToastAndroid.show("Story published", ToastAndroid.SHORT);
+					ToastAndroid.show(i18n.t("PublishScreen.story_published"), ToastAndroid.SHORT);
 					goBack();
 				}
 				else{
-					ToastAndroid.show("Error during publishing the story", ToastAndroid.SHORT);
+					ToastAndroid.show(i18n.t("PublishScreen.error_during_publishing_story"), ToastAndroid.SHORT);
 				}
 				setIspubling(false);
 			}).catch((res) => {
-				ToastAndroid.show("Error during publishing the story", ToastAndroid.SHORT);
+				ToastAndroid.show(i18n.t("PublishScreen.error_during_publishing_story"), ToastAndroid.SHORT);
 			});
 		}
 
@@ -56,13 +58,13 @@ export default function PublishScreen({navigation, route}){
 
 	return(
 		<View>
-			<AlternativeHeader callback={goBack} navigation={navigation} title="Publish story"/>
+			<AlternativeHeader callback={goBack} navigation={navigation} title={i18n.t("PublishScreen.headerTitle")}/>
 			<TextInput 
 				value={title} 
 				onChangeText={handleChangeTitle}
 				ref={titleInput}
 				style={styles.input}	
-				placeholder={"Title"}/>
+				placeholder={i18n.t("PublishScreen.title")}/>
 			
 			<TextInput 
 				multiline={true}
@@ -71,12 +73,12 @@ export default function PublishScreen({navigation, route}){
 				ref={tagsInput}
 				onChangeText={handleChangeTags}
 				style={[styles.input, {textAlignVertical: "top"}]}
-				placeholder={"Hashtags"}/>
+				placeholder={i18n.t("PublishScreen.hashtags")}/>
 
 			<TouchableNativeFeedback disabled={isPublising} onPress={publish}>
 				{isPublising == false ? (
 					<View style={styles.btc}>
-						<Text style={styles.textd}>Publish</Text>
+						<Text style={styles.textd}>{i18n.t("PublishScreen.publish")}</Text>
 					</View>
 
 					) : (

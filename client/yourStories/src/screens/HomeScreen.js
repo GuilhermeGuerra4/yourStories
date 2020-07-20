@@ -16,7 +16,7 @@ import {AuthContext} from "../components/context";
 import AsyncStorage from '@react-native-community/async-storage';
 import api from "../libraries/axios";
 import {primaryColor} from "../assets/colors";
-
+import  i18n  from '../libraries/tradution';
 import OneSignal from 'react-native-onesignal';
 
 OneSignal.init("ee55f1f7-08c2-43f9-9778-332d4841c436");
@@ -144,7 +144,7 @@ export default function HomeScreen({navigation}){
 	useEffect(()=>{
 		if(pushNotificationEnabled != null){
 			if(pushNotificationEnabled == false && pushToken != null){
-				console.log("adding token");
+
 				api.post("/add_push_token", "token="+token+"&push_token="+pushToken).then((res)=>{
 					console.log(res.data);
 					if(res.data.status == true){
@@ -191,9 +191,7 @@ export default function HomeScreen({navigation}){
 		}
 		if(status == 'empty'){
 			if(page == 1){
-				return(
-					<StatusMessage 
-						message={"No stories were found"}/>);
+				return(<StatusMessage message={i18n.t("HomeScreen.no_stories_were_found")}/>);
 			}
 		}
 		else if(status == 'connection_error' || status == 'server_error'){
@@ -202,11 +200,11 @@ export default function HomeScreen({navigation}){
 					<StatusMessage 
 						buttonCallback={reload} 
 						hasCallback={true}
-						message={"Internet connection not detected"}/>
+						message={i18n.t("HomeScreen.internet_connection_not_detected")}/>
 				);
 			}
 			else{
-    			ToastAndroid.show("Internet connection not detected", ToastAndroid.SHORT);
+    			ToastAndroid.show(i18n.t("HomeScreen.internet_connection_not_detected"), ToastAndroid.SHORT);
 			}
 		}
 		else if(status == 'loaded'){

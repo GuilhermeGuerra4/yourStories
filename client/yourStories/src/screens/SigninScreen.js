@@ -14,6 +14,7 @@ import {
 import {primaryColor, primaryColorDarker} from "../assets/colors";
 import {GoogleSignin,GoogleSigninButton,statusCodes} from '@react-native-community/google-signin';
 import {AuthContext} from "../components/context";
+import  i18n  from '../libraries/tradution';
 
 
 export default function SigninScreen({navigation}){
@@ -39,7 +40,7 @@ export default function SigninScreen({navigation}){
 		<View style={style.background}>
 			<StatusBar backgroundColor={primaryColorDarker}/>
 			<Image source={require('../assets/images/logo.png')} style={style.logo}/>
-			<Text style={style.title}>Read and write stories</Text>
+			<Text style={style.title}>{i18n.t("SigninScreen.read_and_write_stories")}</Text>
 			<View style={style.googleSigninButton}>
 				<GoogleSigninButton
 					style={{ width: "65%", height: 55 }}
@@ -50,10 +51,10 @@ export default function SigninScreen({navigation}){
 			</View>
 			<View style={style.terms}>
 				<Text style={style.termsText}> 
-					By signin you agree with our 
+					{i18n.t("SigninScreen.by_signing_you_agree_with_our")}
 				</Text>
 				<TouchableOpacity style={style.toucharea} onPress={goToTerms}>
-					<Text style={style.termsTextLink}> terms</Text>
+					<Text style={style.termsTextLink}> {i18n.t("SigninScreen.terms")}</Text>
 				</TouchableOpacity>
 			</View>
 		</View>

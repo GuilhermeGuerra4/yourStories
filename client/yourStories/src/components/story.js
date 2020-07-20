@@ -5,6 +5,8 @@ import {View,
 	TouchableOpacity, 
 	TouchableWithNativeFeedback} 
 from "react-native";
+import  i18n  from '../libraries/tradution';
+
 
 export default function Story(props){
 
@@ -33,7 +35,7 @@ export default function Story(props){
 
 					<View style={style.sub}>
 						<Text style={style.preview}>{props.preview}...</Text>
-						<Text style={style.readmore}>(Read more)</Text>
+						<Text style={style.readmore}>({i18n.t("HomeScreen.read_more")})</Text>
 					</View>
 				</View>
 			</TouchableOpacity>

@@ -9,7 +9,7 @@ import api from "../libraries/axios";
 import AlternativeHeader from "../components/alternativeHeader";
 import {primaryColor} from "../assets/colors";
 import Icon from 'react-native-vector-icons/FontAwesome';  
-
+import  i18n  from '../libraries/tradution';
 
 export default function StoryDetailsScreen({navigation, route}){
 
@@ -96,7 +96,6 @@ export default function StoryDetailsScreen({navigation, route}){
 			}
 
 			await api.post('/enjoy_story', "token="+token+'&story_id='+storyId).catch((res) => {
-				alert(res);
 			}).then(() => {
 				setIsEnjoying(false);
 			});
@@ -119,10 +118,10 @@ export default function StoryDetailsScreen({navigation, route}){
 					setIsCommenting(false);
 				}
 				else{
-					ToastAndroid.show("Comment failed to post", ToastAndroid.SHORT);
+					ToastAndroid.show(i18n.t("StoryDetailsScreen.comment_failed_to_post"), ToastAndroid.SHORT);
 				}
 			}).catch((res) => {
-				ToastAndroid.show("Comment failed to post", ToastAndroid.SHORT);
+				ToastAndroid.show(i18n.t("StoryDetailsScreen.comment_failed_to_post"), ToastAndroid.SHORT);
 			});
 		}
 	}
@@ -163,7 +162,7 @@ export default function StoryDetailsScreen({navigation, route}){
 		return(
 			<View>
 				<AlternativeHeader 
-					title={"Story"} 
+					title={i18n.t("StoryDetailsScreen.headerTitle")} 
 					navigation={navigation} 
 					callback={navigation.goBack}/>
 				<ScrollView keyboardShouldPersistTaps={'handled'} style={styles.scroll}>
@@ -198,7 +197,7 @@ export default function StoryDetailsScreen({navigation, route}){
 						<TextInput 
 							multiline={true} 
 							numberOfLines={2}
-							placeholder={"Comment"}
+							placeholder={i18n.t("StoryDetailsScreen.comment")}
 							ref={commentInputRef}
 							value={commentInput}
 							onPress={() => {commentInputRef.blur()}}
@@ -243,7 +242,7 @@ export default function StoryDetailsScreen({navigation, route}){
 						{isLastCommentPage == false && isLoadingComments == false ? (
 								<View>
 									<TouchableOpacity onPress={loadMoreComments}>
-										<Text style={styles.loadMore}>Load more</Text>
+										<Text style={styles.loadMore}>{i18n.t("StoryDetailsScreen.load_more")}</Text>
 									</TouchableOpacity>
 								</View>
 							) : (<View></View>) 
