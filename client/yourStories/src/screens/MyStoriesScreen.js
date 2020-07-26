@@ -21,6 +21,10 @@ export default function myStoriesScreen({navigation}){
 	const [storiesEnded, setStoriesEnded] = useState(false);
 	const [isEmpty, setIsEmpty] = useState(false);
 
+	navigation.dangerouslyGetParent().setOptions({
+  		tabBarVisible: true
+	});
+
 	useEffect(() => {
 		AsyncStorage.multiGet(['token', 'photo'], (err, stores) => {
 			stores.map((result, i, store) => {
