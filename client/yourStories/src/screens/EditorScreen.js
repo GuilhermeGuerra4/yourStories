@@ -112,7 +112,6 @@ export default function EditorScreen({navigation, route}){
 			setIsSaving(true);
 			api.put("/save_sketch", "text="+text+"&token="+token).then((res) => {
 				if(res.data.status == true){
-					setText("");
 					setIsSaving(false);
 					navigation.navigate("PublishScreen", {"id": res.data.id, "token": token});
 				}
