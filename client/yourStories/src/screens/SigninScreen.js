@@ -46,7 +46,6 @@ export default function SigninScreen({navigation}){
 					style={{ width: "65%", height: 55 }}
 					size={GoogleSigninButton.Size.Wide}
 					onPress={signin}
-					disabled={isSigningIn}
 					color={GoogleSigninButton.Color.Dark}/>
 			</View>
 			<View style={style.terms}>

@@ -11,13 +11,14 @@ import {AuthContext} from "./components/context";
 import {GoogleSignin} from '@react-native-community/google-signin';
 import AsyncStorage from '@react-native-community/async-storage';
 import api from './libraries/axios';
+import Loading from "./components/loading";
 
 const Tab = createBottomTabNavigator();
 
 GoogleSignin.configure({
 	scopes: [],	
 	webClientId: '123449495234-hvoe37lfffoqifs8hcb1c3m4umc851s4.apps.googleusercontent.com',
-	offlineAccess: false,
+	offlineAccess: true,
 	forceCodeForRefreshToken: true, 
 });
 
@@ -32,20 +33,22 @@ const Routes = () => {
 				return {isLoading: false, isSigned: false}
 			case "IS_LOADING":
 				return {isLoading: true}
+			case "IS_NOT_LOADING":
+				return {isLoading: false} 
 			default:
 				return state;
 		}
 	}
 	,{
-		isLoading: true,
+		isLoading: false,
 		token: null,
 		isSigned: false,
 	});
 
 	const Auth = React.useMemo(() => ({	
-		signIn: async () => {
-			dispatch({type: "IS_LOADING"});	
+		signIn: async () => {	
 			try {
+				dispatch({type: "IS_LOADING"});
 				await GoogleSignin.hasPlayServices();
 				const userInfo = await GoogleSignin.signIn();
 
@@ -58,6 +61,7 @@ const Routes = () => {
 				];
 
 				api.post('/signin', "token="+userInfo.idToken).then((res) => {
+					console.log(res.data);
 					if(res.data.status == true){
 						data.push(['token', res.data.payload.token]);
 						const save = async (data) => {
@@ -71,10 +75,10 @@ const Routes = () => {
 						console.log(error);
 					}
 				}).catch((error) => {
-					console.log(error);
+					dispatch({type: "IS_NOT_LOADING"});
 				});
 			} catch (error) {
-				console.log(error);
+				dispatch({type: "IS_NOT_LOADING"});
 			}
 		},
 		signOut: async () => {
@@ -91,9 +95,6 @@ const Routes = () => {
 			await AsyncStorage.getItem("token").then((token) => {
 				if(token != null){
 					dispatch({type: "SIGN_IN", token: token});
-				}
-				else{
-					dispatch({type: "SIGN_OUT"});
 				}
 			});
 		}
@@ -138,8 +139,10 @@ const Routes = () => {
 		)
 	}
 	else{
-		return(<View></View>
-		)
+		return(
+			<View style={{flex: 1, backgroundColor: primaryColor}}>
+			</View>
+		);
 	}
 };
 
