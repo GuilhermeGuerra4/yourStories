@@ -27,7 +27,7 @@ def signin():
 
 			if is_in_db == 0:
 				new_token = token_generator(user['email'])
-				response['payload'] = new_token
+				response['payload'] = {'token':new_token}
 				current_timestamp = str(time.time())
 				new_user = User(id = False,
 								token = new_token,
