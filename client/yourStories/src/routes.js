@@ -12,8 +12,10 @@ import {GoogleSignin} from '@react-native-community/google-signin';
 import AsyncStorage from '@react-native-community/async-storage';
 import api from './libraries/axios';
 import Loading from "./components/loading";
+import { NativeModules, Platform } from 'react-native';
 
 const Tab = createBottomTabNavigator();
+const locale = Platform.OS === 'ios' ? NativeModules.SettingsManager.settings.AppleLocale : NativeModules.I18nManager.localeIdentifier;
 
 GoogleSignin.configure({
 	scopes: [],	
@@ -60,8 +62,7 @@ const Routes = () => {
 					['name', userInfo.user.name],
 				];
 
-				api.post('/signin', "token="+userInfo.idToken).then((res) => {
-					console.log(res.data);
+				api.post('/signin', "token="+userInfo.idToken+"&locale="+locale).then((res) => {
 					if(res.data.status == true){
 						data.push(['token', res.data.payload.token]);
 						const save = async (data) => {
@@ -140,8 +141,7 @@ const Routes = () => {
 	}
 	else{
 		return(
-			<View style={{flex: 1, backgroundColor: primaryColor}}>
-			</View>
+			<View style={{flex: 1, backgroundColor: primaryColor}}></View>
 		);
 	}
 };

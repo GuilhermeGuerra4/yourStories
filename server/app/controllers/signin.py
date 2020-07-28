@@ -23,6 +23,8 @@ def signin():
 			response['message'] = "ok"
 			user = google_request.json()
 			is_in_db = User.query.filter_by(google_id=user['sub']).count()
+			locale = request.form['locale'] if 'locale' in request.form else user['locale']
+
 			if is_in_db == 0:
 				new_token = token_generator(user['email'])
 				response['payload'] = new_token
@@ -34,7 +36,7 @@ def signin():
 								email = user['email'],
 								birthdate = None,
 								photo = user['picture'],
-								locale = user['locale'],
+								locale = locale,
 								ip = request.remote_addr,
 								datetime_created_account = current_timestamp,
 								last_datetime_online = current_timestamp,
