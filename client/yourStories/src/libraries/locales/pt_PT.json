@@ -8,7 +8,7 @@
 	"EditorScreen": {
 		"write_something_before_publishing": "Escreva algo antes de publicar",
 		"sketch_saved": "Esboço guardado",
-		"error_during_saving": "Erro ao salvar",
+		"error_during_saving": "Erro ao guardar",
 		"write_something_before_saving": "Escreva algo antes de guardar",
 		"start_writing_your_story": "Escreva a tua história...",
 		"save_sketch": "Guardar esboço",
@@ -34,8 +34,8 @@
 		"publish": "Publicar",
 	},
 	"SigninScreen": {
-		"read_and_write_stories": "Ler e escrever história",
-		"by_signing_you_agree_with_our": "Ao aceder concorda com nossos",
+		"read_and_write_stories": "Ler e escrever histórias",
+		"by_signing_you_agree_with_our": "Ao aceder concorda com os nossos",
 		"terms": "termos",
 	},
 	"StoryDetailsScreen": {

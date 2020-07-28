@@ -10,8 +10,6 @@ const locale =
     ? NativeModules.SettingsManager.settings.AppleLocale
     : NativeModules.I18nManager.localeIdentifier;
 
-console.log(locale);
-
 i18n.defaultLocale = "en";
 i18n.locale = locale;
 i18n.fallbacks = true;
