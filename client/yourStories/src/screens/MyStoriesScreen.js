@@ -62,6 +62,7 @@ export default function myStoriesScreen({navigation}){
 				setDownLoading(true);
 			}
 			api.get("/get_my_stories/"+token+"/"+page+"/").then((res)=>{
+				console.log("getting");
 				if(res.data.status == true){
 					if(res.data.size == 0 && page == 1){
 						setIsEmpty(true);
@@ -139,7 +140,7 @@ export default function myStoriesScreen({navigation}){
 
 						<View style={styles.inline}>
 							<Icon color="#444" name={"comments"} size={25}/>
-							<Text style={styles.count}>{story.item.enjoys}</Text>
+							<Text style={styles.count}>{story.item.comments}</Text>
 						</View>
 					</View>
 				</View>
