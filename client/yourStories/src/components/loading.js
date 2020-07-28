@@ -2,10 +2,10 @@ import React from "react";
 import {Text, View, StyleSheet, ActivityIndicator} from "react-native";
 import {primaryColor} from "../assets/colors";
 
-export default function Loading(){
+export default function Loading(props){
 	return(
 		<View style={styles.loadingView}>
-			<ActivityIndicator size={40} color={primaryColor} style={styles.loading}/>
+			<ActivityIndicator size={40} color={props.color != undefined ? props.color : primaryColor} style={styles.loading}/>
 		</View>
 	)
 }
