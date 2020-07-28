@@ -127,7 +127,6 @@ export default function HomeScreen({navigation}){
 		}
 
 		function onIds(e){
-			console.log(e.userId);
 			setPushToken(e.userId);
 		}
 
@@ -146,7 +145,6 @@ export default function HomeScreen({navigation}){
 			if(pushNotificationEnabled == false && pushToken != null){
 
 				api.post("/add_push_token", "token="+token+"&push_token="+pushToken).then((res)=>{
-					console.log(res.data);
 					if(res.data.status == true){
 						AsyncStorage.setItem("pushNotificationEnabled", "enabled");
 					}
