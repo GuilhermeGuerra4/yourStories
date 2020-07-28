@@ -40,7 +40,7 @@ export default function StoryDetailsScreen({navigation, route}){
 
 	async function loadStory(){
 		const story_id = route.params.story_id;
-		await api.get('/get_story/'+token+'/'+story_id).then((res) => {
+		await api.get('/get_story/'+token+'/'+story_id+"/").then((res) => {
 			if(res.data.status == true){
 				if(res.data.payload.is_liked_by_user == true){
 					setIsLiked(true);
