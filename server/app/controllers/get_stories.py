@@ -27,6 +27,12 @@ def get_stories(token=None, page=None):
 				.order_by(Story.datetime_created.desc()) \
 				.paginate(per_page=page_size, page=page, error_out=False)
 
+			if len(fetch.items) == 0:
+				fetch = Story.query.filter(Story.status.like('published'), Story.locale.like('en')) \
+				.with_entities(Story.id, Story.title, Story.preview) \
+				.order_by(Story.datetime_created.desc()) \
+				.paginate(per_page=page_size, page=page, error_out=False)
+
 			data = []
 
 			
