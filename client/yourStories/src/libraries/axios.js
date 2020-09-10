@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-var debug = false;
+var debug = true;
 let api;
 
 if(debug == true){

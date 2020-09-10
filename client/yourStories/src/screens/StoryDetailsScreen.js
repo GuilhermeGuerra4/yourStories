@@ -207,7 +207,7 @@ export default function StoryDetailsScreen({navigation, route}){
 
 						<View style={styles.commentBtc}>
 							<TouchableOpacity style={styles.touch} onPress={addComment}>
-								<Icon name={"paper-plane"} style={styles.icon} color={"#666"} size={30}/>
+								<Icon name={"comment"} light style={styles.icon} color={"#666"} size={30}/>
 							</TouchableOpacity>
 						</View>
 

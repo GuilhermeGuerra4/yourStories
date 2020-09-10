@@ -42,7 +42,7 @@ const Routes = () => {
 		}
 	}
 	,{
-		isLoading: false,
+		isLoading: true,
 		token: null,
 		isSigned: false,
 	});
@@ -50,7 +50,6 @@ const Routes = () => {
 	const Auth = React.useMemo(() => ({	
 		signIn: async () => {	
 			try {
-				dispatch({type: "IS_LOADING"});
 				await GoogleSignin.hasPlayServices();
 				const userInfo = await GoogleSignin.signIn();
 
@@ -92,14 +91,17 @@ const Routes = () => {
 
 	}), []);
 
-		const verifyLogin = async () => {
-			await AsyncStorage.getItem("token").then((token) => {
-				if(token != null){
-					dispatch({type: "SIGN_IN", token: token});
-				}
-			});
-		}
-		verifyLogin();
+	const verifyLogin = async () => {
+		await AsyncStorage.getItem("token").then((token) => {
+			if(token != null){
+				dispatch({type: "SIGN_IN", token: token});
+			}
+			else{
+				dispatch({type: "SIGN_OUT"});
+			}
+		});
+	}
+	verifyLogin();
 
 	if(state.isLoading == false){
 		return(
@@ -141,7 +143,7 @@ const Routes = () => {
 	}
 	else{
 		return(
-			<View style={{flex: 1, backgroundColor: primaryColor}}></View>
+			<View></View>
 		);
 	}
 };
